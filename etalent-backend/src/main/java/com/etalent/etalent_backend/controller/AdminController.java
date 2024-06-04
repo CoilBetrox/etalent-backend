@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
@@ -20,5 +22,33 @@ public class AdminController {
     public ResponseEntity<AdminDto> createAdmin(@RequestBody AdminDto adminDto) {
         AdminDto savedAdmin = adminService.createAdmin(adminDto);
         return new ResponseEntity<>(savedAdmin, HttpStatus.CREATED);
+    }
+
+    //Build Get Admin REST API
+    @GetMapping("{id}")
+    public ResponseEntity<AdminDto> getAdminById(@PathVariable("id") Integer AdminId) {
+        AdminDto adminDto = adminService.getAdminById(AdminId);
+        return ResponseEntity.ok(adminDto);
+    }
+
+    //Build Get All Admins REST API
+    @GetMapping
+    public ResponseEntity<List<AdminDto>> getAllAdmins() {
+        List<AdminDto> adminDtos = adminService.getAllAdmins();
+        return ResponseEntity.ok(adminDtos);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<AdminDto> updateAdmin(@PathVariable("id") Integer AdminId,
+                                                @RequestBody AdminDto updatedAdmin) {
+            AdminDto adminDto = adminService.updateAdmin(AdminId, updatedAdmin);
+            return ResponseEntity.ok(adminDto);
+    }
+
+    //Build Delete Admin REST API
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteAdmin(@PathVariable("id") Integer AdminId) {
+        adminService.deleteAdmin(AdminId);
+        return ResponseEntity.ok("Employee deleted succesfully");
     }
 }

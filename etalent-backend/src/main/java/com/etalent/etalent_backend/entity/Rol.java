@@ -25,7 +25,6 @@ public class Rol {
     /*
     @OneToOne
     private Admin admin;
-
      */
 
 }

@@ -28,8 +28,8 @@ public class Admin {
     @Column(name = "correo_admin")
     private String correoAdmin;
 
-    @Column(name = "imagen_admin")
     @Lob
+    @Column(name = "imagen_admin")
     private Byte[] imagenAdmin;
 
 
