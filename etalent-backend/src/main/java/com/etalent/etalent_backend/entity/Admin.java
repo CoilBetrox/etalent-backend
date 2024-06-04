@@ -29,7 +29,9 @@ public class Admin {
     private String correoAdmin;
 
     @Column(name = "imagen_admin")
-    private String imagenAdmin;
+    @Lob
+    private Byte[] imagenAdmin;
+
 
     @Column(name = "empresa_admin")
     private String empresaAdmin;
