@@ -52,7 +52,7 @@ public class AdminServiceImpl implements AdminService {
         admin.setProvinciaAdmin(updatedAdmin.getProvinciaAdmin());
         admin.setZonaAdmin(updatedAdmin.getZonaAdmin());
         admin.setEstadoAdmin(updatedAdmin.getEstadoAdmin());
-        admin.setRolAdmin(updatedAdmin.getRolAdmin());
+        //admin.setRolAdmin(updatedAdmin.getRolAdmin());
 
         Admin updatedAdminObj = adminRepository.save(admin);
         return AdminMapper.mapToAdminDto(updatedAdminObj);

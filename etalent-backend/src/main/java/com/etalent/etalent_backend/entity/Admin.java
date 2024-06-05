@@ -32,7 +32,6 @@ public class Admin {
     @Column(name = "imagen_admin")
     private Byte[] imagenAdmin;
 
-
     @Column(name = "empresa_admin")
     private String empresaAdmin;
 
@@ -45,11 +44,7 @@ public class Admin {
     @Column(name = "estado_admin")
     private String estadoAdmin;
 
-    @Column(name = "rol_admin")
-    private String rolAdmin;
-
-    /*
-    @OneToOne
-    private Role role;
-    */
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_rol", referencedColumnName = "idRol")
+    private Rol rol;
 }

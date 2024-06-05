@@ -24,7 +24,7 @@ public class AdminController {
         return new ResponseEntity<>(savedAdmin, HttpStatus.CREATED);
     }
 
-    //Build Get Admin REST API
+    //Build Get Admin by ID REST API
     @GetMapping("{id}")
     public ResponseEntity<AdminDto> getAdminById(@PathVariable("id") Integer AdminId) {
         AdminDto adminDto = adminService.getAdminById(AdminId);
@@ -38,6 +38,7 @@ public class AdminController {
         return ResponseEntity.ok(adminDtos);
     }
 
+    //Build Update Admin REST API
     @PutMapping("{id}")
     public ResponseEntity<AdminDto> updateAdmin(@PathVariable("id") Integer AdminId,
                                                 @RequestBody AdminDto updatedAdmin) {
@@ -49,6 +50,6 @@ public class AdminController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteAdmin(@PathVariable("id") Integer AdminId) {
         adminService.deleteAdmin(AdminId);
-        return ResponseEntity.ok("Employee deleted succesfully");
+        return ResponseEntity.ok("Admin deleted succesfully");
     }
 }

@@ -16,7 +16,7 @@ public class AdminMapper {
                 admin.getProvinciaAdmin(),
                 admin.getZonaAdmin(),
                 admin.getEstadoAdmin(),
-                admin.getRolAdmin()
+                admin.getRol()
         );
     }
 
@@ -31,7 +31,7 @@ public class AdminMapper {
                 adminDto.getProvinciaAdmin(),
                 adminDto.getZonaAdmin(),
                 adminDto.getEstadoAdmin(),
-                adminDto.getRolAdmin()
+                adminDto.getRol()
         );
     }
 }

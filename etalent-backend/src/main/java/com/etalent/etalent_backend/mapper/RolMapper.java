@@ -8,14 +8,16 @@ public class RolMapper {
     public static RolDto mapToRolDto(Rol rol) {
         return new RolDto(
                 rol.getIdRol(),
-                rol.getNombreRol()
+                rol.getNombreRol(),
+                rol.getAdmin()
         );
     }
 
     public static Rol mapToRol(RolDto rolDto) {
         return new Rol(
                 rolDto.getIdRol(),
-                rolDto.getNombreRol()
+                rolDto.getNombreRol(),
+                rolDto.getAdmin()
         );
     }
 }

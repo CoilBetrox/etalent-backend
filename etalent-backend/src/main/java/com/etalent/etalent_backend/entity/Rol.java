@@ -22,9 +22,6 @@ public class Rol {
     @Column(name = "nombre_rol")
     private String nombreRol;
 
-    /*
-    @OneToOne
+    @OneToOne(mappedBy = "rol")
     private Admin admin;
-     */
-
 }

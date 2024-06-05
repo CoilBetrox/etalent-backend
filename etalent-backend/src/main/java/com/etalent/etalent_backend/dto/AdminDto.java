@@ -1,6 +1,6 @@
 package com.etalent.etalent_backend.dto;
 
-import jakarta.persistence.Column;
+import com.etalent.etalent_backend.entity.Rol;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,5 +20,5 @@ public class AdminDto {
     private String provinciaAdmin;
     private String zonaAdmin;
     private String estadoAdmin;
-    private String rolAdmin;
+    private Rol rol;
 }
