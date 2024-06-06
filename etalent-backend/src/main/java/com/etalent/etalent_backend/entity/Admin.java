@@ -45,6 +45,6 @@ public class Admin {
     private String estadoAdmin;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_rol", referencedColumnName = "idRol")
+    @JoinColumn(name = "idRol", referencedColumnName = "id_rol")
     private Rol rol;
 }
