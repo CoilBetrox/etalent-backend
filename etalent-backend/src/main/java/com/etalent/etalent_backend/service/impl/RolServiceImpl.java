@@ -3,12 +3,12 @@ package com.etalent.etalent_backend.service.impl;
 import com.etalent.etalent_backend.dto.RolDto;
 import com.etalent.etalent_backend.entity.Rol;
 import com.etalent.etalent_backend.exceptions.ResourceNotFoundException;
-import com.etalent.etalent_backend.mapper.RolMapper;
 import com.etalent.etalent_backend.mapper.RolMapperM;
 import com.etalent.etalent_backend.repository.RolRepository;
 import com.etalent.etalent_backend.service.RolService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +20,7 @@ public class RolServiceImpl implements RolService {
     private RolRepository rolRepository;
 
     @Override
+    @Transactional
     public RolDto createRol(RolDto rolDto) {
         //Rol rol = RolMapper.mapToRol(rolDto);
         Rol rol = RolMapperM.INSTANCE.toRol(rolDto);
@@ -28,6 +29,7 @@ public class RolServiceImpl implements RolService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RolDto getRolById(Integer rolId) {
         Rol rol = rolRepository.findById(rolId)
                 .orElseThrow(() -> new ResourceNotFoundException("Rol is not exist with given id: "+rolId));
@@ -35,6 +37,7 @@ public class RolServiceImpl implements RolService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<RolDto> getAllRols() {
         List<Rol> rols = rolRepository.findAll();
 
@@ -45,6 +48,7 @@ public class RolServiceImpl implements RolService {
     }
 
     @Override
+    @Transactional
     public RolDto updateRol(Integer rodId, RolDto updatedRol) {
         Rol rol = rolRepository.findById(rodId).orElseThrow(
                 () -> new ResourceNotFoundException("Rol is not exist with given id: "+rodId)
@@ -56,6 +60,7 @@ public class RolServiceImpl implements RolService {
     }
 
     @Override
+    @Transactional
     public void deleteRol(Integer rolId) {
         Rol rol = rolRepository.findById(rolId).orElseThrow(
                 () -> new ResourceNotFoundException("Rol is not exist with given id: "+rolId)

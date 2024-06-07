@@ -7,7 +7,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface RolMapperM {
-
     RolMapperM INSTANCE = Mappers.getMapper(RolMapperM.class);
 
     RolDto toRolDto(Rol rol);

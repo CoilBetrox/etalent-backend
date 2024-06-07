@@ -50,6 +50,10 @@ public class Admin {
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Rol> roles = new HashSet<>();
 
+    public Admin(Integer idAdmin){
+        this.idAdmin = idAdmin;
+    }
+
     //Bidireccionalidad
     public void addRol(Rol rol) {
         roles.add(rol);
