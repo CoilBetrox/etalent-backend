@@ -14,5 +14,4 @@ import lombok.Setter;
 public class RolDto {
     private Integer idRol;
     private String nombreRol;
-    private Admin admin;
 }

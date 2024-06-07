@@ -41,8 +41,8 @@ public class AdminController {
     //Build Update Admin REST API
     @PutMapping("{id}")
     public ResponseEntity<AdminDto> updateAdmin(@PathVariable("id") Integer AdminId,
-                                                @RequestBody AdminDto updatedAdmin) {
-            AdminDto adminDto = adminService.updateAdmin(AdminId, updatedAdmin);
+                                                @RequestBody AdminDto updatedAdminDto) {
+            AdminDto adminDto = adminService.updateAdmin(AdminId, updatedAdminDto);
             return ResponseEntity.ok(adminDto);
     }
 

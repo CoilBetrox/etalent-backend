@@ -22,6 +22,7 @@ public class Rol {
     @Column(name = "nombre_rol")
     private String nombreRol;
 
-    @OneToOne(mappedBy = "rol")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_admin")
     private Admin admin;
 }

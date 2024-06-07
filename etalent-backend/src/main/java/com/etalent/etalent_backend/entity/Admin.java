@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -44,7 +47,17 @@ public class Admin {
     @Column(name = "estado_admin")
     private String estadoAdmin;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idRol", referencedColumnName = "id_rol")
-    private Rol rol;
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Rol> roles = new HashSet<>();
+
+    //Bidireccionalidad
+    public void addRol(Rol rol) {
+        roles.add(rol);
+        rol.setAdmin(this);
+    }
+
+    public void removeRol(Rol rol){
+        roles.remove(rol);
+        rol.setAdmin(null);
+    }
 }

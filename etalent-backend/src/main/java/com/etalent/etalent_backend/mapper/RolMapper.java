@@ -5,6 +5,7 @@ import com.etalent.etalent_backend.entity.Rol;
 
 public class RolMapper {
 
+    /*
     public static RolDto mapToRolDto(Rol rol) {
         return new RolDto(
                 rol.getIdRol(),
@@ -20,4 +21,6 @@ public class RolMapper {
                 rolDto.getAdmin()
         );
     }
+
+     */
 }

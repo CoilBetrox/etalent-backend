@@ -5,6 +5,7 @@ import com.etalent.etalent_backend.entity.Admin;
 
 public class AdminMapper {
 
+    /*
     public static AdminDto mapToAdminDto(Admin admin) {
         return new AdminDto(
                 admin.getIdAdmin(),
@@ -34,4 +35,6 @@ public class AdminMapper {
                 adminDto.getRol()
         );
     }
+
+     */
 }

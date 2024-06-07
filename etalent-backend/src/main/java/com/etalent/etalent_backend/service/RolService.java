@@ -7,7 +7,7 @@ import java.util.List;
 public interface RolService {
 
     RolDto createRol(RolDto rolDto);
-    RolDto getRolById(int id);
+    RolDto getRolById(Integer id);
     List<RolDto> getAllRols();
     RolDto updateRol(Integer rodId ,RolDto updatedRol);
     void deleteRol(Integer rolId);

@@ -41,8 +41,8 @@ public class RolController {
     //Build Update Rol REST API
     @PutMapping("{id}")
     public ResponseEntity<RolDto> updateRol(@PathVariable("id") Integer RolId,
-                                            @RequestBody RolDto updatedRol) {
-        RolDto rolDto = rolService.updateRol(RolId, updatedRol);
+                                            @RequestBody RolDto updatedRolDto) {
+        RolDto rolDto = rolService.updateRol(RolId, updatedRolDto);
         return ResponseEntity.ok(rolDto);
     }
 

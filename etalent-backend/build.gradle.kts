@@ -27,7 +27,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
-	runtimeOnly("com.microsoft.sqlserver:mssql-jdbc")
+	//implementation("org.postgresql:postgresql:42.7.3")
+	//implementation("com.microsoft.sqlserver:mssql-jdbc:12.7.0")
+	implementation("com.microsoft.sqlserver:mssql-jdbc:9.4.0.jre11")
+	implementation("org.mapstruct:mapstruct:1.5.5.Final")
+	implementation("org.mapstruct:mapstruct-processor:1.5.5.Final")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

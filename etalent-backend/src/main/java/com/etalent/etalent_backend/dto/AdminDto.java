@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,5 +22,5 @@ public class AdminDto {
     private String provinciaAdmin;
     private String zonaAdmin;
     private String estadoAdmin;
-    private Rol rol;
+    private Set<RolDto> roles;
 }

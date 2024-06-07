@@ -4,9 +4,12 @@ import com.etalent.etalent_backend.dto.AdminDto;
 import com.etalent.etalent_backend.entity.Admin;
 import com.etalent.etalent_backend.exceptions.ResourceNotFoundException;
 import com.etalent.etalent_backend.mapper.AdminMapper;
+import com.etalent.etalent_backend.mapper.AdminMapperM;
+import com.etalent.etalent_backend.mapper.RolMapperM;
 import com.etalent.etalent_backend.repository.AdminRepository;
 import com.etalent.etalent_backend.service.AdminService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,23 +23,28 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public AdminDto createAdmin(AdminDto adminDto) {
-        Admin admin = AdminMapper.mapToAdmin(adminDto);
+        //Admin admin = AdminMapper.mapToAdmin(adminDto);
+        Admin admin = AdminMapperM.INSTANCE.toAdmin(adminDto);
         Admin savedAdmin = adminRepository.save(admin);
-        return AdminMapper.mapToAdminDto(savedAdmin);
+        //return AdminMapper.mapToAdminDto(savedAdmin);
+        return AdminMapperM.INSTANCE.toAdminDto(savedAdmin);
     }
 
     @Override
-    public AdminDto getAdminById(int adminId) {
+    public AdminDto getAdminById(Integer adminId) {
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(() -> new ResourceNotFoundException("Admin is not exist with given id:"+adminId));
-        return AdminMapper.mapToAdminDto(admin);
+        return AdminMapperM.INSTANCE.toAdminDto(admin);
     }
 
     @Override
     public List<AdminDto> getAllAdmins() {
+        /*
         List<Admin> admins = adminRepository.findAll();
-        return admins.stream().map((admin) -> AdminMapper.mapToAdminDto(admin))
+        return admins.stream().map((admin) -> AdminMapperM.INSTANCE.toAdminDto(admin))
                 .collect(Collectors.toList());
+         */
+        return adminRepository.findAll().stream().map(AdminMapperM.INSTANCE::toAdminDto).collect(Collectors.toList());
     }
 
     @Override
@@ -52,10 +60,10 @@ public class AdminServiceImpl implements AdminService {
         admin.setProvinciaAdmin(updatedAdmin.getProvinciaAdmin());
         admin.setZonaAdmin(updatedAdmin.getZonaAdmin());
         admin.setEstadoAdmin(updatedAdmin.getEstadoAdmin());
-        //admin.setRolAdmin(updatedAdmin.getRolAdmin());
+        admin.setRoles(updatedAdmin.getRoles().stream().map(RolMapperM.INSTANCE::toRol).collect(Collectors.toSet()));
 
         Admin updatedAdminObj = adminRepository.save(admin);
-        return AdminMapper.mapToAdminDto(updatedAdminObj);
+        return AdminMapperM.INSTANCE.toAdminDto(updatedAdminObj);
     }
 
     @Override
