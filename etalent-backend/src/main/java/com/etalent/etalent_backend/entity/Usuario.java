@@ -22,6 +22,9 @@ public class Usuario {
     @Column(name = "nombre_usuario")
     private String nombreUsuario;
 
+    @Column(name= "correo_usuario")
+    private String correoUsuario;
+
     @Column(name = "sap_usuario")
     private String sapUsuario;
 

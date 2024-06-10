@@ -46,6 +46,8 @@ public class RolController {
         return ResponseEntity.ok(rolDto);
     }
 
+    //Build Delete Rol REST API
+    @DeleteMapping("{id}")
     public ResponseEntity<String> deleteRol(@PathVariable("id") Integer RolId) {
         rolService.deleteRol(RolId);
         return ResponseEntity.ok("Rol deleted successfully");

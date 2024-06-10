@@ -26,8 +26,8 @@ public class AdminController {
 
     //Build Get Admin by ID REST API
     @GetMapping("{id}")
-    public ResponseEntity<AdminDto> getAdminById(@PathVariable("id") Integer AdminId) {
-        AdminDto adminDto = adminService.getAdminById(AdminId);
+    public ResponseEntity<AdminDto> getAdminById(@PathVariable("id") Integer adminId) {
+        AdminDto adminDto = adminService.getAdminById(adminId);
         return ResponseEntity.ok(adminDto);
     }
 
@@ -40,9 +40,9 @@ public class AdminController {
 
     //Build Update Admin REST API
     @PutMapping("{id}")
-    public ResponseEntity<AdminDto> updateAdmin(@PathVariable("id") Integer AdminId,
+    public ResponseEntity<AdminDto> updateAdmin(@PathVariable("id") Integer adminId,
                                                 @RequestBody AdminDto updatedAdminDto) {
-            AdminDto adminDto = adminService.updateAdmin(AdminId, updatedAdminDto);
+            AdminDto adminDto = adminService.updateAdmin(adminId, updatedAdminDto);
             return ResponseEntity.ok(adminDto);
     }
 
@@ -55,7 +55,7 @@ public class AdminController {
 
     //Build Put Admin and Rol with id REST API
     @PutMapping("/{adminId}/roles/{rolId}")
-    public ResponseEntity<AdminDto> addRolToAdmin(@PathVariable("adminId") Integer adminId, @PathVariable("rolId") Integer rolId){
+    public ResponseEntity<AdminDto> addRolToAdmin(@PathVariable Integer adminId, @PathVariable Integer rolId){
         AdminDto updatedAdmin = adminService.addRolToAdmin(adminId, rolId);
         return ResponseEntity.ok(updatedAdmin);
     }
