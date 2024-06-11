@@ -24,6 +24,9 @@ public class Feedback {
     @Column(name = "titulo_feedback")
     private String tituloFeedback;
 
+    @Column(name = "descripcion_feedback")
+    private String descripcionFeedback;
+
     @Column(name = "comentario_feedback")
     private String comentarioFeedback;
 

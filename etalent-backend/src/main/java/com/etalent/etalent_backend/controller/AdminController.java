@@ -54,7 +54,7 @@ public class AdminController {
     }
 
     //Build Put Admin and Rol with id REST API
-    @PutMapping("/{adminId}/roles/{rolId}")
+    @PutMapping("/{adminId}/roladmin/{rolId}")
     public ResponseEntity<AdminDto> addRolToAdmin(@PathVariable Integer adminId, @PathVariable Integer rolId){
         AdminDto updatedAdmin = adminService.addRolToAdmin(adminId, rolId);
         return ResponseEntity.ok(updatedAdmin);

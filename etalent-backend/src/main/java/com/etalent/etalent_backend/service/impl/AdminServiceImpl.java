@@ -2,12 +2,12 @@ package com.etalent.etalent_backend.service.impl;
 
 import com.etalent.etalent_backend.dto.AdminDto;
 import com.etalent.etalent_backend.entity.Admin;
-import com.etalent.etalent_backend.entity.Rol;
+import com.etalent.etalent_backend.entity.RolAdmin;
 import com.etalent.etalent_backend.exceptions.ResourceNotFoundException;
 import com.etalent.etalent_backend.mapper.AdminMapperM;
-import com.etalent.etalent_backend.mapper.RolMapperM;
+import com.etalent.etalent_backend.mapper.RolAdminMapperM;
 import com.etalent.etalent_backend.repository.AdminRepository;
-import com.etalent.etalent_backend.repository.RolRepository;
+import com.etalent.etalent_backend.repository.RolAdminRepository;
 import com.etalent.etalent_backend.service.AdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,25 +20,20 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-    private RolRepository rolRepository;
+    private RolAdminRepository rolAdminRepository;
     private AdminRepository adminRepository;
 
     @Override
     @Transactional
     public AdminDto createAdmin(AdminDto adminDto) {
-        //Admin admin = AdminMapper.mapToAdmin(adminDto);
-        Admin admin = AdminMapperM.INSTANCE.toAdmin(adminDto);
-        Admin savedAdmin = adminRepository.save(admin);
-        //return AdminMapper.mapToAdminDto(savedAdmin);
-        return AdminMapperM.INSTANCE.toAdminDto(savedAdmin);
+        return AdminMapperM.INSTANCE.toAdminDto(adminRepository.save(AdminMapperM.INSTANCE.toAdmin(adminDto)));
     }
 
     @Override
     @Transactional(readOnly = true)
     public AdminDto getAdminById(Integer adminId) {
-        Admin admin = adminRepository.findById(adminId)
-                .orElseThrow(() -> new ResourceNotFoundException("Admin is not exist with given id:"+adminId));
-        return AdminMapperM.INSTANCE.toAdminDto(admin);
+        return AdminMapperM.INSTANCE.toAdminDto(adminRepository.findById(adminId)
+                .orElseThrow(() -> new ResourceNotFoundException("Admin is not exist with given id:"+adminId)));
     }
 
     @Override
@@ -61,7 +56,7 @@ public class AdminServiceImpl implements AdminService {
         admin.setProvinciaAdmin(updatedAdmin.getProvinciaAdmin());
         admin.setZonaAdmin(updatedAdmin.getZonaAdmin());
         admin.setEstadoAdmin(updatedAdmin.getEstadoAdmin());
-        admin.setRoles(updatedAdmin.getRoles().stream().map(RolMapperM.INSTANCE::toRol).collect(Collectors.toSet()));
+        admin.setRolAdmins(updatedAdmin.getRolAdmins().stream().map(RolAdminMapperM.INSTANCE::toRol).collect(Collectors.toSet()));
 
         Admin updatedAdminObj = adminRepository.save(admin);
         return AdminMapperM.INSTANCE.toAdminDto(updatedAdminObj);
@@ -81,10 +76,9 @@ public class AdminServiceImpl implements AdminService {
     public AdminDto addRolToAdmin(Integer adminId, Integer rolId) {
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(() -> new ResourceNotFoundException("Admin is not exist with given id:"+adminId));
-        Rol rol = rolRepository.findById(rolId)
+        RolAdmin rol = rolAdminRepository.findById(rolId)
                 .orElseThrow(() -> new ResourceNotFoundException("Rol is not exist with given id:"+rolId));
         admin.addRol(rol);
-        //admin.setRoles(rol);
         Admin updatedAdminObj = adminRepository.save(admin);
         return AdminMapperM.INSTANCE.toAdminDto(updatedAdminObj);
     }

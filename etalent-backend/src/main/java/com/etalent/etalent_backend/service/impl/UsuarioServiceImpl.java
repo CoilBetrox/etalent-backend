@@ -31,7 +31,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional(readOnly = true)
     public UsuarioDto getUsuarioById(Integer usuarioId) {
         Usuario usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario is not exist wih given id: "+usuarioId));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario is not exist with given id: "+usuarioId));
         return UsuarioMapperM.INSTANCE.toUsuarioDto(usuario);
     }
 
@@ -45,7 +45,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public UsuarioDto updateUsuario(Integer usuarioId, UsuarioDto updatedUsuario) {
         Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow(
-                () -> new ResourceNotFoundException("Usuario is not exist wih given id: "+usuarioId));
+                () -> new ResourceNotFoundException("Usuario is not exist with given id: "+usuarioId));
         usuario.setNombreUsuario(updatedUsuario.getNombreUsuario());
         usuario.setCorreoUsuario(updatedUsuario.getCorreoUsuario());
         usuario.setSapUsuario(updatedUsuario.getSapUsuario());
@@ -60,7 +60,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public void deleteUsuario(Integer usuarioId) {
         Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow(
-                () -> new ResourceNotFoundException("Usuario is not exist wih given id: "+usuarioId)
+                () -> new ResourceNotFoundException("Usuario is not exist with given id: "+usuarioId)
         );
         usuarioRepository.deleteById(usuarioId);
     }

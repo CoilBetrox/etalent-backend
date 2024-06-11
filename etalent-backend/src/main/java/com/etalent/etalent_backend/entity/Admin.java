@@ -48,20 +48,20 @@ public class Admin {
     private String estadoAdmin;
 
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Rol> roles = new HashSet<>();
+    private Set<RolAdmin> rolAdmins = new HashSet<>();
 
     public Admin(Integer idAdmin){
         this.idAdmin = idAdmin;
     }
 
     //Bidireccionalidad
-    public void addRol(Rol rol) {
-        roles.add(rol);
+    public void addRol(RolAdmin rol) {
+        rolAdmins.add(rol);
         rol.setAdmin(this);
     }
 
-    public void removeRol(Rol rol){
-        roles.remove(rol);
+    public void removeRol(RolAdmin rol){
+        rolAdmins.remove(rol);
         rol.setAdmin(null);
     }
 }

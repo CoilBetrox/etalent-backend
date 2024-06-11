@@ -3,6 +3,7 @@ package com.etalent.etalent_backend.controller;
 import com.etalent.etalent_backend.dto.UsuarioDto;
 import com.etalent.etalent_backend.service.UsuarioService;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioDtos);
     }
 
-
+    //Build Update Usuario REST API
     @PutMapping("{id}")
     public ResponseEntity<UsuarioDto> updateUsuario(@PathVariable("id") Integer usuarioId,
                                                     @RequestBody UsuarioDto updatedUsuarioDto) {
@@ -46,4 +47,10 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioDto);
     }
 
+    //Build Delete Usuario REST API
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteUsuario(@PathVariable("id") Integer usuarioId) {
+        usuarioService.deleteUsuario(usuarioId);
+        return ResponseEntity.ok("Usuario deleted successfully");
+    }
 }

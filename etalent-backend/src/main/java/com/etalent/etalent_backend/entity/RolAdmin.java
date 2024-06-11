@@ -11,8 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Roles")
-public class Rol {
+@Table(name = "Roles_Admin")
+public class RolAdmin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

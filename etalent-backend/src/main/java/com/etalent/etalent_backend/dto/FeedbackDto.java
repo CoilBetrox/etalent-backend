@@ -15,6 +15,7 @@ import java.util.Date;
 public class FeedbackDto {
     private Integer idFeedback;
     private String tituloFeedback;
+    private String descripcionFeedback;
     private String comentarioFeedback;
     private Date fechaCreacionFeedback;
 }

@@ -3,7 +3,6 @@ package com.etalent.etalent_backend.mapper;
 import com.etalent.etalent_backend.dto.AdminDto;
 import com.etalent.etalent_backend.entity.Admin;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
