@@ -15,5 +15,5 @@ public class UsuarioDto {
     private String correoUsuario;
     private String sapUsuario;
     private String estadoUsuario;
-    private String rolUsuario;
+    private RolUsuarioDto rolUsuario;
 }

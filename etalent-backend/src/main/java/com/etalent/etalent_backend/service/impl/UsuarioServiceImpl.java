@@ -3,6 +3,7 @@ package com.etalent.etalent_backend.service.impl;
 import com.etalent.etalent_backend.dto.UsuarioDto;
 import com.etalent.etalent_backend.entity.Usuario;
 import com.etalent.etalent_backend.exceptions.ResourceNotFoundException;
+import com.etalent.etalent_backend.mapper.RolUsuarioMapperM;
 import com.etalent.etalent_backend.mapper.UsuarioMapperM;
 import com.etalent.etalent_backend.repository.UsuarioRepository;
 import com.etalent.etalent_backend.service.UsuarioService;
@@ -50,7 +51,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setCorreoUsuario(updatedUsuario.getCorreoUsuario());
         usuario.setSapUsuario(updatedUsuario.getSapUsuario());
         usuario.setEstadoUsuario(updatedUsuario.getEstadoUsuario());
-        usuario.setRolUsuario(updatedUsuario.getRolUsuario());
+        if (updatedUsuario.getIdUsuario() != null){
+            usuario.setRolUsuario(RolUsuarioMapperM.INSTANCE.toRolUsuario(updatedUsuario.getRolUsuario()));
+        }
 
         Usuario updatedUsuarioObj = usuarioRepository.save(usuario);
         return UsuarioMapperM.INSTANCE.toUsuarioDto(updatedUsuarioObj);

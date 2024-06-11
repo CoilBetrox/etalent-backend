@@ -40,9 +40,6 @@ public class RolAdminServiceImpl implements RolAdminService {
     @Transactional(readOnly = true)
     public List<RolAdminDto> getAllRols() {
         List<RolAdmin> rols = rolAdminRepository.findAll();
-
-        //return rols.stream().map((rol) -> RolMapper.mapToRolDto(rol))
-        //        .collect(Collectors.toList());
         return rols.stream().map(RolAdminMapperM.INSTANCE::toRolDto)
                 .collect(Collectors.toList());
     }

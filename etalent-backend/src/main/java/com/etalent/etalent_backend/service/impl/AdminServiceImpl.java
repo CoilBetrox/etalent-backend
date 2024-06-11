@@ -1,5 +1,6 @@
 package com.etalent.etalent_backend.service.impl;
 
+import com.etalent.etalent_backend.dto.AdminCreateRequestDto;
 import com.etalent.etalent_backend.dto.AdminDto;
 import com.etalent.etalent_backend.entity.Admin;
 import com.etalent.etalent_backend.entity.RolAdmin;
@@ -13,7 +14,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,5 +86,27 @@ public class AdminServiceImpl implements AdminService {
         return AdminMapperM.INSTANCE.toAdminDto(updatedAdminObj);
     }
 
+    @Override
+    public AdminDto createAdminWithRoles(AdminCreateRequestDto adminCreateRequestDto) {
+        Admin admin  = new Admin();
+        admin.setNombreAdmin(adminCreateRequestDto.getNombreAdmin());
+        admin.setSapAdmin(adminCreateRequestDto.getSapAdmin());
+        admin.setCorreoAdmin(adminCreateRequestDto.getCorreoAdmin());
+        admin.setImagenAdmin(adminCreateRequestDto.getImagenAdmin());
+        admin.setEmpresaAdmin(adminCreateRequestDto.getEmpresaAdmin());
+        admin.setProvinciaAdmin(adminCreateRequestDto.getProvinciaAdmin());
+        admin.setZonaAdmin(adminCreateRequestDto.getZonaAdmin());
+        admin.setEstadoAdmin(adminCreateRequestDto.getEstadoAdmin());
 
+        Set<RolAdmin> rolAdmins = new HashSet<>();
+        for (Integer rolId : adminCreateRequestDto.getRolIds()){
+            RolAdmin rolAdmin = rolAdminRepository.findById(rolId)
+                    .orElseThrow( () -> new ResourceNotFoundException("Rol is not exist with given id:"+rolId));
+            rolAdmins.add(rolAdmin);
+            rolAdmin.setAdmin(admin);
+        }
+        admin.setRolAdmins(rolAdmins);
+        Admin savedAdmin = adminRepository.save(admin);
+        return AdminMapperM.INSTANCE.toAdminDto(savedAdmin);
+    }
 }

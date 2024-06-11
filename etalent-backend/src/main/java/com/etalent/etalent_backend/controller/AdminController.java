@@ -1,5 +1,6 @@
 package com.etalent.etalent_backend.controller;
 
+import com.etalent.etalent_backend.dto.AdminCreateRequestDto;
 import com.etalent.etalent_backend.dto.AdminDto;
 import com.etalent.etalent_backend.service.AdminService;
 import lombok.AllArgsConstructor;
@@ -58,5 +59,12 @@ public class AdminController {
     public ResponseEntity<AdminDto> addRolToAdmin(@PathVariable Integer adminId, @PathVariable Integer rolId){
         AdminDto updatedAdmin = adminService.addRolToAdmin(adminId, rolId);
         return ResponseEntity.ok(updatedAdmin);
+    }
+
+    //Build Post Admin with Roles REST API
+    @PostMapping("/withRol")
+    public ResponseEntity<AdminDto> createAdminWithRoles(@RequestBody AdminCreateRequestDto adminCreateRequestDto) {
+        AdminDto newAdmin = adminService.createAdminWithRoles(adminCreateRequestDto);
+        return ResponseEntity.ok(newAdmin);
     }
 }

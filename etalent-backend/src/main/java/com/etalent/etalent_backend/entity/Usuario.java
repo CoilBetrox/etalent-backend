@@ -31,6 +31,7 @@ public class Usuario {
     @Column(name = "estado_usuario")
     private String estadoUsuario;
 
-    @Column(name = "rol_usuario")
-    private String rolUsuario;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_rol_usuario", referencedColumnName = "id_rol_usuario")
+    private RolUsuario rolUsuario;
 }
