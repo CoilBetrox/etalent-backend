@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -21,5 +22,5 @@ public class AdminDto {
     private String provinciaAdmin;
     private String zonaAdmin;
     private String estadoAdmin;
-    private Set<RolAdminDto> rolAdmins;
+    private Set<RolAdminDto> rolAdmins = new HashSet<>();
 }

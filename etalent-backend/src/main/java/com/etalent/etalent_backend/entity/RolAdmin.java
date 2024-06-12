@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,7 +25,6 @@ public class RolAdmin {
     @Column(name = "nombre_rol")
     private String nombreRol;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_admin")
-    private Admin admin;
+    @ManyToMany(mappedBy = "rolAdmins")
+    private Set<Admin> admins = new HashSet<>();
 }

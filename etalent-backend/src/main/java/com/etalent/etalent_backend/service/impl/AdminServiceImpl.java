@@ -88,25 +88,18 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public AdminDto createAdminWithRoles(AdminCreateRequestDto adminCreateRequestDto) {
-        Admin admin  = new Admin();
-        admin.setNombreAdmin(adminCreateRequestDto.getNombreAdmin());
-        admin.setSapAdmin(adminCreateRequestDto.getSapAdmin());
-        admin.setCorreoAdmin(adminCreateRequestDto.getCorreoAdmin());
-        admin.setImagenAdmin(adminCreateRequestDto.getImagenAdmin());
-        admin.setEmpresaAdmin(adminCreateRequestDto.getEmpresaAdmin());
-        admin.setProvinciaAdmin(adminCreateRequestDto.getProvinciaAdmin());
-        admin.setZonaAdmin(adminCreateRequestDto.getZonaAdmin());
-        admin.setEstadoAdmin(adminCreateRequestDto.getEstadoAdmin());
+    public AdminDto createAdminWithRoles(AdminDto adminDto) {
+        Admin admin  = AdminMapperM.INSTANCE.toAdmin(adminDto);
 
-        Set<RolAdmin> rolAdmins = new HashSet<>();
-        for (Integer rolId : adminCreateRequestDto.getRolIds()){
-            RolAdmin rolAdmin = rolAdminRepository.findById(rolId)
-                    .orElseThrow( () -> new ResourceNotFoundException("Rol is not exist with given id:"+rolId));
-            rolAdmins.add(rolAdmin);
-            rolAdmin.setAdmin(admin);
+        if (adminDto.getRolAdmins() != null){
+            Set<RolAdmin> roles = adminDto.getRolAdmins().stream()
+                    .map(rolDto -> rolAdminRepository.findById(rolDto.getIdRol())
+                            .orElseThrow(
+                                    () -> new ResourceNotFoundException("RolAdmin not found with id: "+rolDto.getIdRol())
+                            )).collect(Collectors.toSet());
+            admin.setRolAdmins(roles);
         }
-        admin.setRolAdmins(rolAdmins);
+
         Admin savedAdmin = adminRepository.save(admin);
         return AdminMapperM.INSTANCE.toAdminDto(savedAdmin);
     }

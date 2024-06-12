@@ -14,5 +14,5 @@ public interface AdminService {
     void deleteAdmin(Integer adminId);
 
     AdminDto addRolToAdmin(Integer adminId, Integer rolId);
-    AdminDto createAdminWithRoles(AdminCreateRequestDto adminCreateRequestDto);
+    AdminDto createAdminWithRoles(AdminDto adminDto);
 }

@@ -1,6 +1,7 @@
 package com.etalent.etalent_backend.controller;
 
 import com.etalent.etalent_backend.dto.RolUsuarioDto;
+import com.etalent.etalent_backend.dto.UsuarioDto;
 import com.etalent.etalent_backend.service.RolUsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -51,5 +52,12 @@ public class RolUsuarioController {
     public ResponseEntity<String> deleteRolUsuario(@PathVariable("id") Integer rolUsuarioId) {
         rolUsuarioService.deleteRolUsuario(rolUsuarioId);
         return ResponseEntity.ok("RolUsuario deleted succesfully");
+    }
+
+    //Build Post Usuario with Rol REST API
+    @PostMapping("/usrwr")
+    public ResponseEntity<UsuarioDto> createUsuarioWithRol(@RequestBody UsuarioDto usuarioDto) {
+        UsuarioDto newUsuarioDto = rolUsuarioService.createUsuarioWithRol(usuarioDto);
+        return ResponseEntity.ok(newUsuarioDto);
     }
 }

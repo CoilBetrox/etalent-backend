@@ -47,7 +47,12 @@ public class Admin {
     @Column(name = "estado_admin")
     private String estadoAdmin;
 
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "admin_rol_admin",
+            joinColumns = @JoinColumn(name = "admin_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_admin_id")
+    )
     private Set<RolAdmin> rolAdmins = new HashSet<>();
 
     public Admin(Integer idAdmin){
@@ -57,11 +62,11 @@ public class Admin {
     //Bidireccionalidad
     public void addRol(RolAdmin rol) {
         rolAdmins.add(rol);
-        rol.setAdmin(this);
+        rol.getAdmins().add(this);
     }
 
     public void removeRol(RolAdmin rol){
         rolAdmins.remove(rol);
-        rol.setAdmin(null);
+        rol.getAdmins().remove(this);
     }
 }

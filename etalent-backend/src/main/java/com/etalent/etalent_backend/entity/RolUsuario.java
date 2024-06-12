@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,7 +24,7 @@ public class RolUsuario {
     @Column(name = "nombre_rol_usuario")
     private String nombreRolUsuario;
 
-    @OneToOne(mappedBy = "rolUsuario")
-    private Usuario usuario;
+    @OneToMany(mappedBy = "rolUsuario")
+    private List<Usuario> usuario;
 
 }
