@@ -11,4 +11,6 @@ public interface UsuarioService {
     UsuarioDto updateUsuario(Integer usuarioId, UsuarioDto updatedUsuario);
     void deleteUsuario(Integer usuarioId);
 
+    UsuarioDto addRolUsuario(Integer usuarioId, Integer rolUsuarioId);
+
 }

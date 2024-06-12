@@ -67,4 +67,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         );
         usuarioRepository.deleteById(usuarioId);
     }
+
+    @Override
+    public UsuarioDto addRolUsuario(Integer usuarioId, Integer rolUsuarioId) {
+        return null;
+    }
 }

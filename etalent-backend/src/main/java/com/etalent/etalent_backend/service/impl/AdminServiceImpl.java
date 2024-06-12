@@ -87,6 +87,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @Transactional
     public AdminDto createAdminWithRoles(AdminCreateRequestDto adminCreateRequestDto) {
         Admin admin  = new Admin();
         admin.setNombreAdmin(adminCreateRequestDto.getNombreAdmin());
