@@ -91,8 +91,12 @@ public class RolUsuarioServiceImpl implements RolUsuarioService {
                         () -> new ResourceNotFoundException("Usuario is not exist with given id: "+usuarioId)
                 );
 
-        //RolUsuario rolUsuario = rolUsuarioRepository.
-
-        return null;
+        RolUsuario rolUsuario = rolUsuarioRepository.findById(rolUsuarioId)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("RolUsuario is not exist with given id: "+rolUsuarioId)
+                );
+        usuario.setRolUsuario(rolUsuario);
+        Usuario savedUsuario = userRepository.save(usuario);
+        return UsuarioMapperM.INSTANCE.toUsuarioDto(savedUsuario);
     }
 }

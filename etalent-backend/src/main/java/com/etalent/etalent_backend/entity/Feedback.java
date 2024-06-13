@@ -32,4 +32,12 @@ public class Feedback {
 
     @Column(name = "fecha_creacion_feedback")
     private Date fechaCreacionFeedback;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_admin")
+    private Admin admin;
 }

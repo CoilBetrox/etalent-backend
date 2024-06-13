@@ -60,4 +60,11 @@ public class RolUsuarioController {
         UsuarioDto newUsuarioDto = rolUsuarioService.createUsuarioWithRol(usuarioDto);
         return ResponseEntity.ok(newUsuarioDto);
     }
+
+    //Build Put rolUsuario with usuarioId and rolUsuarioId
+    @PutMapping("/{usuarioId}/roll/{rolUsuarioId}")
+    public ResponseEntity<UsuarioDto> updateRolUsuario(@PathVariable Integer usuarioId, @PathVariable Integer rolUsuarioId){
+        UsuarioDto updatedUsuarioDto = rolUsuarioService.updateRolUsuario(usuarioId, rolUsuarioId);
+        return ResponseEntity.ok(updatedUsuarioDto);
+    }
 }

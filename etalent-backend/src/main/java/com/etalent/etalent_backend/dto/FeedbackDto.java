@@ -18,4 +18,6 @@ public class FeedbackDto {
     private String descripcionFeedback;
     private String comentarioFeedback;
     private Date fechaCreacionFeedback;
+    private Integer idUsuario;
+    private Integer idAdmin;
 }
