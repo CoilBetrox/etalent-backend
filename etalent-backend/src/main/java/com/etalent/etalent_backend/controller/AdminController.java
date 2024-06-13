@@ -63,8 +63,8 @@ public class AdminController {
 
     //Build Post Admin with Roles REST API
     @PostMapping("/withRol")
-    public ResponseEntity<AdminDto> createAdminWithRoles(@RequestBody AdminCreateRequestDto adminCreateRequestDto) {
-        AdminDto newAdmin = adminService.createAdminWithRoles(adminCreateRequestDto);
+    public ResponseEntity<AdminDto> createAdminWithRoles(@RequestBody AdminDto adminDto) {
+        AdminDto newAdmin = adminService.createAdminWithRoles(adminDto);
         return ResponseEntity.ok(newAdmin);
     }
 }

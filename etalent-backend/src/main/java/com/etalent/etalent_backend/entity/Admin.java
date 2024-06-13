@@ -47,7 +47,7 @@ public class Admin {
     @Column(name = "estado_admin")
     private String estadoAdmin;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
     @JoinTable(
             name = "admin_rol_admin",
             joinColumns = @JoinColumn(name = "admin_id"),
