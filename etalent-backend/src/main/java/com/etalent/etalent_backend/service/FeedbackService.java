@@ -5,7 +5,7 @@ import com.etalent.etalent_backend.dto.FeedbackDto;
 import java.util.List;
 
 public interface FeedbackService {
-    FeedbackDto createFeedback(FeedbackDto feedbackDto);
+    FeedbackDto createFeedback(FeedbackDto feedbackDto, Integer idUsuario, Integer idAdmin);
     FeedbackDto getFeedbackById(Integer feedbackId);
     List<FeedbackDto> getAllFeedbacks();
     FeedbackDto updateFeedback(Integer feedbackId ,FeedbackDto updatedFeedback);

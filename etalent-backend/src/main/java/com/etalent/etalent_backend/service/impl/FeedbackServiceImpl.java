@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,40 +32,22 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     @Transactional
-    public FeedbackDto createFeedback(FeedbackDto feedbackDto) {
-        if (feedbackDto.getIdUsuario() == null || feedbackDto.getIdAdmin() == null) {
+    public FeedbackDto createFeedback(FeedbackDto feedbackDto, Integer idUsuario, Integer idAdmin) {
+
+        if (usuarioRepository.findById(idUsuario).isEmpty() || adminRepository.findById(idAdmin).isEmpty()) {
             throw new InputMismatchException("idUsuario o idAdmin no deben ser null");
         }
 
         Feedback feedback = FeedbackMapperM.INSTANCE.toFeedback(feedbackDto);
-        feedback.setUsuario(usuarioRepository.findById(feedbackDto.getIdUsuario()).orElseThrow(
-                () -> new ResourceNotFoundException("Usuario no encontrado"+ feedbackDto.getIdUsuario())
+        feedback.setUsuario(usuarioRepository.findById(idUsuario).orElseThrow(
+                () -> new ResourceNotFoundException("Usuario no encontrado"+ idUsuario)
         ));
-        feedback.setAdmin(adminRepository.findById(feedbackDto.getIdAdmin()).orElseThrow(
-                () -> new ResourceNotFoundException("Admin no encontrado"+ feedbackDto.getIdAdmin())
+        feedback.setAdmin(adminRepository.findById(idAdmin).orElseThrow(
+                () -> new ResourceNotFoundException("Admin no encontrado"+ idAdmin)
         ));
 
         feedback = feedbackRepository.save(feedback);
         return FeedbackMapperM.INSTANCE.toFeedbackDto(feedback);
-        /*
-        Feedback feedback = FeedbackMapperM.INSTANCE.toFeedback(feedbackDto);
-        Usuario usuario = usuarioRepository.findById(feedbackDto.getIdUsuario())
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Usuario not found with id: " + feedbackDto.getIdUsuario())
-                );
-        feedback.setUsuario(usuario);
-
-        Admin admin = adminRepository.findById(feedbackDto.getIdAdmin())
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Admin not found with id: " + feedbackDto.getIdAdmin())
-                );
-        feedback.setAdmin(admin);
-
-        Feedback savedFeedback = feedbackRepository.save(feedback);
-
-        return FeedbackMapperM.INSTANCE.toFeedbackDto(savedFeedback);
-
-         */
     }
 
     @Override

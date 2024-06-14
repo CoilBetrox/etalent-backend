@@ -19,9 +19,11 @@ public class FeedbackController {
     private FeedbackService feedbackService;
 
     //Build Post Feedback REST API
-    @PostMapping
-    public ResponseEntity<FeedbackDto> createFeedback(@RequestBody FeedbackDto feedbackDto) {
-        return new ResponseEntity<>(feedbackService.createFeedback(feedbackDto), HttpStatus.CREATED);
+    @PostMapping("/{idUsuario}/{idAdmin}")
+    public ResponseEntity<FeedbackDto> createFeedback(@RequestBody FeedbackDto feedbackDto,
+                                                      @PathVariable Integer idUsuario,
+                                                      @PathVariable Integer idAdmin) {
+        return new ResponseEntity<>(feedbackService.createFeedback(feedbackDto, idUsuario, idAdmin), HttpStatus.CREATED);
     }
 
     //Build Get Feedback By Id REST API

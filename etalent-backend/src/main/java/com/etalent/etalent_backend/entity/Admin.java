@@ -55,8 +55,11 @@ public class Admin {
     )
     private Set<RolAdmin> rolAdmins = new HashSet<>();
 
+
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Feedback> feedbacks = new HashSet<>();
+
+
 
     public Admin(Integer idAdmin){
         this.idAdmin = idAdmin;
