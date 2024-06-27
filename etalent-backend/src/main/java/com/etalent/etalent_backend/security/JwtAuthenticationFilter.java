@@ -30,39 +30,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
 
+        String token = getTokenFromRequest(request);
 
+        if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
+            String username = jwtTokenProvider.getUsername(token);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities()
+            );
 
-        final String requestPath = request.getServletPath();
-        if (requestPath.contains("/api/admins/r/register") || requestPath.contains("/api/admins/r/login")){
-            filterChain.doFilter(request, response);
-            return;
+            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
 
-        final String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-        try {
-            final String jwt = authHeader.substring(7);
-            final String userEmail = jwtService.getUsername(jwt);
-            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-                if (jwtService.validateToken(jwt)){
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities()
-                    );
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
-                    logger.info("Authenticated user: {}", userEmail);
-                }
-            }
-        }catch (Exception e){
-            logger.error("Error processing JWT token", e);
-        }
         filterChain.doFilter(request, response);
-
-
     }
 
     private String getTokenFromRequest(HttpServletRequest request){
