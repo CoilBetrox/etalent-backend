@@ -2,7 +2,6 @@ package com.etalent.etalent_backend.controller;
 
 import com.etalent.etalent_backend.dto.AdminLoginDto;
 import com.etalent.etalent_backend.entity.JwtAuthResponse;
-import com.etalent.etalent_backend.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 public class AuthController {
 
+    /*
     private AuthService authService;
 
     @PostMapping("/login")
@@ -26,4 +26,6 @@ public class AuthController {
         jwtAuthResponse.setAccessToken(token);
         return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
     }
+
+     */
 }

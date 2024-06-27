@@ -2,6 +2,7 @@ package com.etalent.etalent_backend.controller;
 
 import com.etalent.etalent_backend.dto.AdminLoginDto;
 import com.etalent.etalent_backend.dto.AdminRegisterDto;
+import com.etalent.etalent_backend.entity.JwtAuthResponse;
 import com.etalent.etalent_backend.service.AdminRegisterService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/admins/r")
+@RequestMapping("/api/admins")
 public class AdminRegisterController {
 
     private AdminRegisterService adminRegisterService;
@@ -23,9 +24,10 @@ public class AdminRegisterController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginAdmin(@RequestBody AdminLoginDto adminLoginDto){
+    public ResponseEntity<JwtAuthResponse> loginAdmin(@RequestBody AdminLoginDto adminLoginDto){
         String token = adminRegisterService.authenticateAdmin(adminLoginDto.getCorreoAdmin(), adminLoginDto.getContraAdmin());
-        return new ResponseEntity<>(token, HttpStatus.OK);
+        JwtAuthResponse response = new JwtAuthResponse(token, "Bearer");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

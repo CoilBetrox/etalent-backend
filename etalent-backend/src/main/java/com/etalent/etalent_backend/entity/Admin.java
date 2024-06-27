@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Entity
 @Table(name = "admins")
-public class Admin {
+public class Admin implements UserDetails{
 
     @Id
     @GeneratedValue( strategy = GenerationType.SEQUENCE)
@@ -88,7 +88,7 @@ public class Admin {
     }
 
     //Implements User Details
-    /*
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return rolAdmins.stream()
@@ -128,5 +128,4 @@ public class Admin {
         return this.isVerified;
     }
 
-     */
 }

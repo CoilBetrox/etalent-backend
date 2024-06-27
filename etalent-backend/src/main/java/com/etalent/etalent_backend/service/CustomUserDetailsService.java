@@ -24,15 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        Admin admin = adminRegisterRepository.findByCorreoAdmin(usernameOrEmail)
-                .orElseThrow(
-                        () -> new UsernameNotFoundException("User not exists by email: " + usernameOrEmail)
-                );
-
-        List<SimpleGrantedAuthority> authorities = admin.getRolAdmins().stream()
-                .map((role) -> new SimpleGrantedAuthority(role.getNombreRol()))
-                .collect(Collectors.toList());
-
-        return new User(usernameOrEmail, admin.getContraAdmin(), authorities);
+        return adminRegisterRepository.findByCorreoAdmin(usernameOrEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not exists by email: " + usernameOrEmail));
     }
 }

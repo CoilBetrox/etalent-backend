@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "roles_admin")
-public class RolAdmin {
+public class RolAdmin implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -27,4 +28,9 @@ public class RolAdmin {
 
     @ManyToMany(mappedBy = "rolAdmins")
     private Set<Admin> admins = new HashSet<>();
+
+    @Override
+    public String getAuthority() {
+        return this.nombreRol;
+    }
 }

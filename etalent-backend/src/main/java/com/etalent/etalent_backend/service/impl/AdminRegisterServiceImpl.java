@@ -7,21 +7,19 @@ import com.etalent.etalent_backend.repository.AdminRegisterRepository;
 import com.etalent.etalent_backend.service.AdminRegisterService;
 import com.etalent.etalent_backend.security.JwtTokenProvider;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class AdminRegisterServiceImpl implements AdminRegisterService {
 
-    private JwtTokenProvider jwtService;
     private AdminRegisterRepository adminRegisterRepository;
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public AdminRegisterServiceImpl(AdminRegisterRepository adminRegisterRepository) {
-        this.adminRegisterRepository = adminRegisterRepository;
-    }
+    private JwtTokenProvider jwtTokenProvider;
 
     @Override
     @Transactional
@@ -38,7 +36,6 @@ public class AdminRegisterServiceImpl implements AdminRegisterService {
     }
 
     @Override
-    @Transactional
     public String authenticateAdmin(String correoAdmin, String contraAdmin) {
         Admin admin = adminRegisterRepository.findByCorreoAdmin(correoAdmin)
                 .orElseThrow(() -> new RuntimeException("Admin no encontrado"));
@@ -46,6 +43,6 @@ public class AdminRegisterServiceImpl implements AdminRegisterService {
         if (!passwordEncoder.matches(contraAdmin, admin.getContraAdmin())) {
             throw new RuntimeException("Contraseña incorrecta");
         }
-        return jwtService.generateToken(admin);
+        return jwtTokenProvider.generateToken(admin.getCorreoAdmin());
     }
 }
