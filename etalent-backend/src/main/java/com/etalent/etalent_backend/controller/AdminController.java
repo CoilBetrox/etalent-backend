@@ -1,6 +1,5 @@
 package com.etalent.etalent_backend.controller;
 
-import com.etalent.etalent_backend.dto.AdminCreateRequestDto;
 import com.etalent.etalent_backend.dto.AdminDto;
 import com.etalent.etalent_backend.service.AdminService;
 import lombok.AllArgsConstructor;

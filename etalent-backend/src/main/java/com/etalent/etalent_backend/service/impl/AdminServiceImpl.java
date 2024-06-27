@@ -1,6 +1,5 @@
 package com.etalent.etalent_backend.service.impl;
 
-import com.etalent.etalent_backend.dto.AdminCreateRequestDto;
 import com.etalent.etalent_backend.dto.AdminDto;
 import com.etalent.etalent_backend.entity.Admin;
 import com.etalent.etalent_backend.entity.RolAdmin;

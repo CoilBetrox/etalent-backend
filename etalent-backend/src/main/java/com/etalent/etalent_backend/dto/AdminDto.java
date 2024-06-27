@@ -1,18 +1,15 @@
 package com.etalent.etalent_backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminDto {
+    //Dto para uso común
     private Integer idAdmin;
     private String nombreAdmin;
     private String sapAdmin;
@@ -23,5 +20,4 @@ public class AdminDto {
     private String zonaAdmin;
     private String estadoAdmin;
     private Set<RolAdminDto> rolAdmins = new HashSet<>();
-    //add Feedback
 }
