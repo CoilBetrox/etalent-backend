@@ -5,6 +5,8 @@ import com.etalent.etalent_backend.dto.AdminRegisterDto;
 import com.etalent.etalent_backend.entity.JwtAuthResponse;
 import com.etalent.etalent_backend.service.AdminRegisterService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/admins")
+@RequestMapping("/api/admins/auth")
 public class AdminRegisterController {
 
+    private static final Logger log = LoggerFactory.getLogger(AdminRegisterController.class);
     private AdminRegisterService adminRegisterService;
 
     @PostMapping("/register")
@@ -24,10 +27,14 @@ public class AdminRegisterController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> loginAdmin(@RequestBody AdminLoginDto adminLoginDto){
-        String token = adminRegisterService.authenticateAdmin(adminLoginDto.getCorreoAdmin(), adminLoginDto.getContraAdmin());
-        JwtAuthResponse response = new JwtAuthResponse(token, "Bearer");
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<?> loginAdmin(@RequestBody AdminLoginDto adminLoginDto){
+        try {
+            String token = adminRegisterService.authenticateAdmin(adminLoginDto.getCorreoAdmin(), adminLoginDto.getContraAdmin());
+            JwtAuthResponse response = new JwtAuthResponse(token, "Bearer");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (RuntimeException e){
+            log.error("Error durante el login: ", e);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
     }
-
 }
