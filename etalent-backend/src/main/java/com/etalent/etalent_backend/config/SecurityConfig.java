@@ -37,7 +37,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> {
-                    authorize.requestMatchers("/api/admins/auth/register", "/api/admins/auth/login").permitAll();
+                    authorize.requestMatchers("/api/admins/auth/register", "/api/admins/auth/login").permitAll()
+                            .requestMatchers("/api/admins/**").hasAuthority("AdminDO");
                     //authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     authorize.anyRequest().authenticated();
                 });

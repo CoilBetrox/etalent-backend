@@ -2,8 +2,10 @@ package com.etalent.etalent_backend.service.impl;
 
 import com.etalent.etalent_backend.dto.AdminRegisterDto;
 import com.etalent.etalent_backend.entity.Admin;
+import com.etalent.etalent_backend.entity.RolAdmin;
 import com.etalent.etalent_backend.mapper.AdminRegisterMapperM;
 import com.etalent.etalent_backend.repository.AdminRegisterRepository;
+import com.etalent.etalent_backend.repository.RolAdminRepository;
 import com.etalent.etalent_backend.service.AdminRegisterService;
 import com.etalent.etalent_backend.security.JwtTokenProvider;
 import jakarta.transaction.Transactional;
@@ -15,6 +17,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class AdminRegisterServiceImpl implements AdminRegisterService {
@@ -23,6 +28,7 @@ public class AdminRegisterServiceImpl implements AdminRegisterService {
     private AdminRegisterRepository adminRegisterRepository;
     private PasswordEncoder passwordEncoder;
     private JwtTokenProvider jwtTokenProvider;
+    private RolAdminRepository rolAdminRepository;
 
     @Override
     @Transactional
@@ -33,6 +39,11 @@ public class AdminRegisterServiceImpl implements AdminRegisterService {
         Admin admin = AdminRegisterMapperM.INSTANCE.toAdmin(adminRegisterDto);
         admin.setContraAdmin(passwordEncoder.encode(admin.getContraAdmin()));
         admin.setVerified(true);    //false si verificación por correo
+        Set<RolAdmin> roles = adminRegisterDto.getRolAdmins().stream()
+                .map(rolDto -> rolAdminRepository.findById(rolDto.getIdRol())
+                        .orElseThrow( () -> new RuntimeException("Rol no encontrado" + rolDto.getNombreRol())))
+                .collect(Collectors.toSet());
+        admin.setRolAdmins(roles);
 
         Admin savedAdmin = adminRegisterRepository.save(admin);
         return AdminRegisterMapperM.INSTANCE.toAdminDto(savedAdmin);

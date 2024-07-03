@@ -20,4 +20,5 @@ public class AdminDto {
     private String zonaAdmin;
     private String estadoAdmin;
     private Set<RolAdminDto> rolAdmins = new HashSet<>();
+    private Set<UsuarioDto> usuarios = new HashSet<>();
 }

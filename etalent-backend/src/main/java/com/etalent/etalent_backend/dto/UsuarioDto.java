@@ -1,12 +1,8 @@
 package com.etalent.etalent_backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsuarioDto {
@@ -15,5 +11,6 @@ public class UsuarioDto {
     private String correoUsuario;
     private String sapUsuario;
     private String estadoUsuario;
+    //private Integer adminId;
     private RolUsuarioDto rolUsuario;
 }

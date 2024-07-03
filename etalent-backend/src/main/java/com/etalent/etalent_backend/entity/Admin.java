@@ -6,10 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -53,9 +51,6 @@ public class Admin implements UserDetails{
     @Column(name = "estado_admin")
     private String estadoAdmin;
 
-    @Column(name = "verification_token")
-    private String verificationToken;
-
     @Column(name = "is_verified")
     private boolean isVerified = true;
 
@@ -67,10 +62,11 @@ public class Admin implements UserDetails{
     )
     private Set<RolAdmin> rolAdmins = new HashSet<>();
 
-
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Feedback> feedbacks = new HashSet<>();
 
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Usuario> usuarios = new HashSet<>();
 
     public Admin(Integer idAdmin){
         this.idAdmin = idAdmin;
