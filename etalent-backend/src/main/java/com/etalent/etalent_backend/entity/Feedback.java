@@ -1,15 +1,13 @@
 package com.etalent.etalent_backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -21,14 +19,8 @@ public class Feedback {
     @Column(name = "id_feedback")
     private Integer idFeedback;
 
-    @Column(name = "titulo_feedback")
-    private String tituloFeedback;
-
     @Column(name = "descripcion_feedback")
     private String descripcionFeedback;
-
-    @Column(name = "comentario_feedback")
-    private String comentarioFeedback;
 
     @Column(name = "fecha_creacion_feedback")
     private Date fechaCreacionFeedback;
@@ -37,7 +29,6 @@ public class Feedback {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_admin")
-    private Admin admin;
+    @OneToMany(mappedBy = "feedback", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ComentarioFeedback> comentarios = new HashSet<>();
 }

@@ -40,7 +40,7 @@ public class UsuarioController {
     }
 
     //Build Update Usuario REST API
-    @PatchMapping("{id}/rol")
+    @PutMapping("{id}")
     public ResponseEntity<UsuarioDto> updateUsuarioRol(@PathVariable("id") Integer usuarioId,
                                                     @RequestBody UsuarioDto updatedUsuarioDto) {
         UsuarioDto usuarioDto = usuarioService.updateUsuario(usuarioId, updatedUsuarioDto);

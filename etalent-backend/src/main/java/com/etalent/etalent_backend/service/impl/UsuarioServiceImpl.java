@@ -97,7 +97,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new RuntimeException("Usuario no está asociado al admin autenticado");
         }
 
-        if (updatedUsuario.getIdUsuario() != null && updatedUsuario.getRolUsuario().getIdRolUsuario() != null){
+        if (updatedUsuario.getRolUsuario() != null && updatedUsuario.getRolUsuario().getIdRolUsuario() != null){
             //RolUsuario rolUsuario = rolUsuarioRepository.findById(updatedUsuario.getRolUsuario().getIdRolUsuario())
             //                .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
             usuario.setRolUsuario(rolUsuarioRepository.findById(updatedUsuario.getRolUsuario().getIdRolUsuario())

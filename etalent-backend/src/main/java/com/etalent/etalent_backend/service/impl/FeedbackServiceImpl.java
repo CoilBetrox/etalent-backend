@@ -32,18 +32,15 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     @Transactional
-    public FeedbackDto createFeedback(FeedbackDto feedbackDto, Integer idUsuario, Integer idAdmin) {
+    public FeedbackDto createFeedback(FeedbackDto feedbackDto, Integer idUsuario) {
 
-        if (usuarioRepository.findById(idUsuario).isEmpty() || adminRepository.findById(idAdmin).isEmpty()) {
+        if (usuarioRepository.findById(idUsuario).isEmpty()) {
             throw new InputMismatchException("idUsuario o idAdmin no deben ser null");
         }
 
         Feedback feedback = FeedbackMapperM.INSTANCE.toFeedback(feedbackDto);
         feedback.setUsuario(usuarioRepository.findById(idUsuario).orElseThrow(
                 () -> new ResourceNotFoundException("Usuario no encontrado"+ idUsuario)
-        ));
-        feedback.setAdmin(adminRepository.findById(idAdmin).orElseThrow(
-                () -> new ResourceNotFoundException("Admin no encontrado"+ idAdmin)
         ));
 
         feedback = feedbackRepository.save(feedback);
@@ -70,8 +67,6 @@ public class FeedbackServiceImpl implements FeedbackService {
     public FeedbackDto updateFeedback(Integer feedbackId, FeedbackDto updatedFeedback) {
         Feedback feedback = feedbackRepository.findById(feedbackId).orElseThrow(
                 () -> new ResourceNotFoundException("Feedback is not exist with given id: "+feedbackId));
-        feedback.setTituloFeedback(updatedFeedback.getTituloFeedback());
-        feedback.setDescripcionFeedback(updatedFeedback.getDescripcionFeedback());
         feedback.setDescripcionFeedback(updatedFeedback.getDescripcionFeedback());
 
         return FeedbackMapperM.INSTANCE.toFeedbackDto(feedbackRepository.save(feedback));
