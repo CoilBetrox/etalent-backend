@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,4 +33,7 @@ public class ComentarioFeedback {
 
     @Column(name = "contenido")
     private String contenido;
+
+    @Column(name = "fecha_comentario")
+    private Date fechaComentario;
 }

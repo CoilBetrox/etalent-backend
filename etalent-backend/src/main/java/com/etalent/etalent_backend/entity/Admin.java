@@ -62,11 +62,8 @@ public class Admin implements UserDetails{
     )
     private Set<RolAdmin> rolAdmins = new HashSet<>();
 
-    /*
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Feedback> feedbacks = new HashSet<>();
-
-     */
 
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Usuario> usuarios = new HashSet<>();

@@ -29,6 +29,10 @@ public class Feedback {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id")
+    private Admin admin;
+
     @OneToMany(mappedBy = "feedback", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ComentarioFeedback> comentarios = new HashSet<>();
 }

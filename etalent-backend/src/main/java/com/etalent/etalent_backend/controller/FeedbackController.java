@@ -1,7 +1,7 @@
 package com.etalent.etalent_backend.controller;
 
 import com.etalent.etalent_backend.dto.FeedbackDto;
-import com.etalent.etalent_backend.entity.Feedback;
+
 import com.etalent.etalent_backend.service.FeedbackService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

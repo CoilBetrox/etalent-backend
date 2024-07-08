@@ -6,19 +6,19 @@ import com.etalent.etalent_backend.entity.Feedback;
 import com.etalent.etalent_backend.entity.Usuario;
 import com.etalent.etalent_backend.exceptions.ResourceNotFoundException;
 import com.etalent.etalent_backend.mapper.FeedbackMapperM;
+import com.etalent.etalent_backend.repository.AdminRegisterRepository;
 import com.etalent.etalent_backend.repository.AdminRepository;
 import com.etalent.etalent_backend.repository.FeedbackRepository;
 import com.etalent.etalent_backend.repository.UsuarioRepository;
 import com.etalent.etalent_backend.service.FeedbackService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.InputMismatchException;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,20 +28,23 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     private FeedbackRepository feedbackRepository;
     private UsuarioRepository usuarioRepository;
-    private AdminRepository adminRepository;
+    private AdminRegisterRepository adminRegisterRepository;
 
     @Override
     @Transactional
     public FeedbackDto createFeedback(FeedbackDto feedbackDto, Integer idUsuario) {
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
-        if (usuarioRepository.findById(idUsuario).isEmpty()) {
-            throw new InputMismatchException("idUsuario o idAdmin no deben ser null");
-        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String correoAdmin = authentication.getName();
+        Admin admin = adminRegisterRepository.findByCorreoAdmin(correoAdmin)
+                .orElseThrow(() -> new ResourceNotFoundException("Admin no encontrado"));
 
         Feedback feedback = FeedbackMapperM.INSTANCE.toFeedback(feedbackDto);
-        feedback.setUsuario(usuarioRepository.findById(idUsuario).orElseThrow(
-                () -> new ResourceNotFoundException("Usuario no encontrado"+ idUsuario)
-        ));
+        feedback.setUsuario(usuario);
+        feedback.setAdmin(admin);
+        feedback.setFechaCreacionFeedback(new Date());
 
         feedback = feedbackRepository.save(feedback);
         return FeedbackMapperM.INSTANCE.toFeedbackDto(feedback);
@@ -58,7 +61,13 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     @Transactional(readOnly = true)
     public List<FeedbackDto> getAllFeedbacks() {
-        return feedbackRepository.findAll().stream().map(FeedbackMapperM.INSTANCE::toFeedbackDto)
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String correoAdmin = auth.getName();
+        Admin admin = adminRegisterRepository.findByCorreoAdmin(correoAdmin)
+                .orElseThrow(() -> new ResourceNotFoundException("Admin no encontrado"));
+
+        List<Feedback> feedbacks = feedbackRepository.findAllByAdmin(admin);
+        return feedbacks.stream().map(FeedbackMapperM.INSTANCE::toFeedbackDto)
                 .collect(Collectors.toList());
     }
 
