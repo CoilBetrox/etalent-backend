@@ -5,6 +5,7 @@ import com.etalent.etalent_backend.entity.Admin;
 import com.etalent.etalent_backend.entity.ComentarioFeedback;
 import com.etalent.etalent_backend.entity.Feedback;
 import com.etalent.etalent_backend.entity.Usuario;
+import com.etalent.etalent_backend.exceptions.ResourceNotFoundException;
 import com.etalent.etalent_backend.mapper.ComentarioFeedbackMapperM;
 import com.etalent.etalent_backend.repository.AdminRegisterRepository;
 import com.etalent.etalent_backend.repository.ComentarioFeedbackRepository;
@@ -32,14 +33,14 @@ public class ComentarioFeedbackServiceImpl implements ComentarioFeedbackService 
 
     @Override
     @Transactional
-    public ComentarioFeedbackDto createComentarioFeedback(ComentarioFeedbackDto comentarioFeedbackDto) {
+    public ComentarioFeedbackDto createComentarioFeedback(ComentarioFeedbackDto comentarioFeedbackDto, Integer idFeedback) {
+        Feedback feedback = feedbackRepository.findById(idFeedback)
+                .orElseThrow(() -> new ResourceNotFoundException("Feedback no encontrado"));
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String correoAdmin = authentication.getName();
         Admin admin = adminRegisterRepository.findByCorreoAdmin(correoAdmin)
                 .orElseThrow(() -> new RuntimeException("Admin no encontrado"));
-
-        Feedback feedback = feedbackRepository.findById(comentarioFeedbackDto.getFeedbackId())
-                .orElseThrow(() -> new RuntimeException("Feedback no encontrado"));
 
         Usuario usuario = null;
         if (comentarioFeedbackDto.getUsuarioId() != null) {
@@ -53,6 +54,7 @@ public class ComentarioFeedbackServiceImpl implements ComentarioFeedbackService 
         comentarioFeedback.setAdmin(admin);
         comentarioFeedback.setContenido(comentarioFeedbackDto.getContenido());
         comentarioFeedback.setFechaComentario(new Date());
+
         ComentarioFeedback savedComentarioFeedback = comentarioFeedbackRepository.save(comentarioFeedback);
         return ComentarioFeedbackMapperM.INSTANCE.toComentarioFeedbackDto(savedComentarioFeedback);
     }

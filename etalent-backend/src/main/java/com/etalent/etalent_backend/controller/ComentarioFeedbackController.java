@@ -8,15 +8,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
-@RequestMapping("/api/comentarios-feedback")
 @AllArgsConstructor
+@RequestMapping("/api/comentariosFeedback")
 public class ComentarioFeedbackController {
     private ComentarioFeedbackService comentarioFeedbackService;
 
-    @PostMapping
-    public ResponseEntity<ComentarioFeedbackDto> createComentarioFeedback(@RequestBody ComentarioFeedbackDto comentarioFeedbackDto) {
-        ComentarioFeedbackDto createdComentarioFeedback = comentarioFeedbackService.createComentarioFeedback(comentarioFeedbackDto);
+    @PostMapping("/{idFeedback}")
+    public ResponseEntity<ComentarioFeedbackDto> createComentarioFeedback(@RequestBody ComentarioFeedbackDto comentarioFeedbackDto,
+                                                                          @PathVariable Integer idFeedback) {
+        ComentarioFeedbackDto createdComentarioFeedback = comentarioFeedbackService
+                .createComentarioFeedback(comentarioFeedbackDto,
+                        idFeedback);
         return ResponseEntity.ok(createdComentarioFeedback);
     }
 
