@@ -9,8 +9,6 @@ import org.mapstruct.factory.Mappers;
 public interface AdminMapperM {
     AdminMapperM INSTANCE = Mappers.getMapper(AdminMapperM.class);
 
-    //@Mapping(target = "roles", ignore = true)
     AdminDto toAdminDto(Admin admin);
-    //@Mapping(target = "roles", ignore = true)
     Admin toAdmin(AdminDto adminDto);
 }

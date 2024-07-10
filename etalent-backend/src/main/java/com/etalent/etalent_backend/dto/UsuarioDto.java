@@ -11,6 +11,5 @@ public class UsuarioDto {
     private String correoUsuario;
     private String sapUsuario;
     private String estadoUsuario;
-    //private Integer adminId;
     private RolUsuarioDto rolUsuario;
 }

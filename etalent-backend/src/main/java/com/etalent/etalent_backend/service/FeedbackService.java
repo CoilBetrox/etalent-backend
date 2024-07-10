@@ -8,6 +8,4 @@ public interface FeedbackService {
     FeedbackDto createFeedback(FeedbackDto feedbackDto, Integer idUsuario);
     FeedbackDto getFeedbackById(Integer feedbackId);
     List<FeedbackDto> getAllFeedbacks();
-    FeedbackDto updateFeedback(Integer feedbackId ,FeedbackDto updatedFeedback);
-    void deleteFeedback(Integer feedbackId);
 }

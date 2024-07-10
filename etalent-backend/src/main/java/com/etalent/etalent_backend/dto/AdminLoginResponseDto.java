@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminLoginDto {
-    private String correoAdmin;
-    private String contraAdmin;
+public class AdminLoginResponseDto {
+    private String accessToken;
     private String rolAdmins;
 }

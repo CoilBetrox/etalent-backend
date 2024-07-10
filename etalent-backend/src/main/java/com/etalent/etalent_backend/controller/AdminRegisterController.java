@@ -1,6 +1,7 @@
 package com.etalent.etalent_backend.controller;
 
 import com.etalent.etalent_backend.dto.AdminLoginDto;
+import com.etalent.etalent_backend.dto.AdminLoginResponseDto;
 import com.etalent.etalent_backend.dto.AdminRegisterDto;
 import com.etalent.etalent_backend.entity.JwtAuthResponse;
 import com.etalent.etalent_backend.service.AdminRegisterService;
@@ -29,9 +30,9 @@ public class AdminRegisterController {
     @PostMapping("/login")
     public ResponseEntity<?> loginAdmin(@RequestBody AdminLoginDto adminLoginDto){
         try {
-            String token = adminRegisterService.authenticateAdmin(adminLoginDto.getCorreoAdmin(), adminLoginDto.getContraAdmin());
-            JwtAuthResponse response = new JwtAuthResponse(token, "Bearer");
+            AdminLoginResponseDto response = adminRegisterService.authenticateAdmin(adminLoginDto.getCorreoAdmin(), adminLoginDto.getContraAdmin());
             return new ResponseEntity<>(response, HttpStatus.OK);
+
         }catch (RuntimeException e){
             log.error("Error durante el login: ", e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);

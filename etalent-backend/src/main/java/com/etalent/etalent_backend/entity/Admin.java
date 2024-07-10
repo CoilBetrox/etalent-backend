@@ -62,13 +62,13 @@ public class Admin implements UserDetails{
     )
     private Set<RolAdmin> rolAdmins = new HashSet<>();
 
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Feedback> feedbacks = new HashSet<>();
 
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Usuario> usuarios = new HashSet<>();
 
-    @OneToMany(mappedBy = "admin")
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<ComentarioFeedback> comentarios = new HashSet<>();
 
     public Admin(Integer idAdmin){
@@ -85,8 +85,6 @@ public class Admin implements UserDetails{
         rolAdmins.remove(rol);
         rol.getAdmins().remove(this);
     }
-
-    //Implements User Details
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -126,5 +124,4 @@ public class Admin implements UserDetails{
     public boolean isEnabled() {
         return this.isVerified;
     }
-
 }

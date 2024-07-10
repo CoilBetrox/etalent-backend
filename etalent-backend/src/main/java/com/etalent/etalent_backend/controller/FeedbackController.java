@@ -36,17 +36,4 @@ public class FeedbackController {
     public ResponseEntity<List<FeedbackDto>> getAllFeedbacks() {
         return ResponseEntity.ok(feedbackService.getAllFeedbacks());
     }
-
-    //Build Update Feeback REST API
-    @PutMapping("{id}")
-    public ResponseEntity<FeedbackDto> updateFeedback(@PathVariable("id") Integer feedbackId,
-                                                      @RequestBody FeedbackDto updatedFeedbackDto) {
-        return ResponseEntity.ok(feedbackService.updateFeedback(feedbackId, updatedFeedbackDto));
-    }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteFeedback(@PathVariable("id") Integer feedbackId) {
-        feedbackService.deleteFeedback(feedbackId);
-        return ResponseEntity.ok("Feedback deleted succesfully");
-    }
 }

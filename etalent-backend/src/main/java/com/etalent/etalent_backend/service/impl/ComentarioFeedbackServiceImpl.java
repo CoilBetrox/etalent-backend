@@ -13,7 +13,6 @@ import com.etalent.etalent_backend.repository.FeedbackRepository;
 import com.etalent.etalent_backend.repository.UsuarioRepository;
 import com.etalent.etalent_backend.service.ComentarioFeedbackService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,9 +36,7 @@ public class ComentarioFeedbackServiceImpl implements ComentarioFeedbackService 
         Feedback feedback = feedbackRepository.findById(idFeedback)
                 .orElseThrow(() -> new ResourceNotFoundException("Feedback no encontrado"));
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String correoAdmin = authentication.getName();
-        Admin admin = adminRegisterRepository.findByCorreoAdmin(correoAdmin)
+        Admin admin = adminRegisterRepository.findByCorreoAdmin(SecurityContextHolder.getContext().getAuthentication().getName())
                 .orElseThrow(() -> new RuntimeException("Admin no encontrado"));
 
         Usuario usuario = null;

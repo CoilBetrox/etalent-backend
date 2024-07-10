@@ -34,31 +34,20 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     @Transactional
     public UsuarioDto createUsuario(UsuarioDto usuarioDto) {
-        //captura el admin autenticado
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String correoAdmin = authentication.getName();
         Admin admin = adminRegisterRepository.findByCorreoAdmin(correoAdmin)
                 .orElseThrow(() -> new RuntimeException("Admin no encontrado"));
-        System.out.println("----");
-        System.out.println(admin.getCorreoAdmin());
-        System.out.println(admin.getIdAdmin());
-        System.out.println("----");
+
         Usuario usuario = UsuarioMapperM.INSTANCE.toUsuario(usuarioDto);
         Integer idRol = 5;
         RolUsuario rolUsuario = rolUsuarioRepository.findById(idRol)
                         .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
-        System.out.println("----");
-        System.out.println(rolUsuario.getNombreRolUsuario());
-        System.out.println(rolUsuario.getIdRolUsuario());
-        System.out.println("----");
-        usuario.setRolUsuario(rolUsuario);
 
+        usuario.setRolUsuario(rolUsuario);
         usuario.setAdmin(admin);
+
         Usuario saveUsuario = usuarioRepository.save(usuario);
-        System.out.println("----");
-        System.out.println(usuario.getAdmin());
-        System.out.println(usuario.getRolUsuario());
-        System.out.println("----");
         return UsuarioMapperM.INSTANCE.toUsuarioDto(saveUsuario);
     }
 
@@ -98,14 +87,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
 
         if (updatedUsuario.getRolUsuario() != null && updatedUsuario.getRolUsuario().getIdRolUsuario() != null){
-            //RolUsuario rolUsuario = rolUsuarioRepository.findById(updatedUsuario.getRolUsuario().getIdRolUsuario())
-            //                .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
             usuario.setRolUsuario(rolUsuarioRepository.findById(updatedUsuario.getRolUsuario().getIdRolUsuario())
                     .orElseThrow(() -> new RuntimeException("Rol no encontrado")));
-            /*
-            usuario.setRolUsuario(rolUsuarioRepository.findById(updatedUsuario.getIdUsuario())
-                    .orElseThrow(() -> new RuntimeException("Rol no encontrado")));
-             */
         }
 
         Usuario updatedUsuarioObj = usuarioRepository.save(usuario);
@@ -119,10 +102,5 @@ public class UsuarioServiceImpl implements UsuarioService {
                 () -> new ResourceNotFoundException("Usuario is not exist with given id: "+usuarioId)
         );
         usuarioRepository.deleteById(usuarioId);
-    }
-
-    @Override
-    public UsuarioDto addRolUsuario(Integer usuarioId, Integer rolUsuarioId) {
-        return null;
     }
 }

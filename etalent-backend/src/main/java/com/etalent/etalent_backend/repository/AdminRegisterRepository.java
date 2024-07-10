@@ -9,5 +9,4 @@ import java.util.Optional;
 @Repository
 public interface AdminRegisterRepository extends JpaRepository<Admin, Integer> {
     Optional<Admin> findByCorreoAdmin(String correoAdmin);
-    //Optional<Admin> findByVerificationToken(String verificationToken);
 }

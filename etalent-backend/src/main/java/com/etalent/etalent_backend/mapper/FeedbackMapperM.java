@@ -10,7 +10,6 @@ import org.mapstruct.factory.Mappers;
 public interface FeedbackMapperM {
     FeedbackMapperM INSTANCE = Mappers.getMapper(FeedbackMapperM.class);
 
-
     @Mapping(source = "usuario.idUsuario", target = "usuarioId")
     @Mapping(source = "usuario.nombreUsuario", target = "nombreUsuario")
     @Mapping(source = "usuario.sapUsuario", target = "sapUsuario")
@@ -19,7 +18,6 @@ public interface FeedbackMapperM {
     @Mapping(source = "admin.idAdmin", target = "adminId")
     @Mapping(source = "admin.nombreAdmin", target = "nombreAdmin")
     FeedbackDto toFeedbackDto(Feedback feedback);
-
 
     @Mapping(target = "usuario.idUsuario", source = "usuarioId")
     @Mapping(target = "admin.idAdmin", source = "adminId")

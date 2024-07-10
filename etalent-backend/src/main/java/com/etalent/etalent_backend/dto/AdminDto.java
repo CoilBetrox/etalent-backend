@@ -9,16 +9,16 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminDto {
-    //Dto para uso común
+
     private Integer idAdmin;
     private String nombreAdmin;
-    private String sapAdmin;
+    //private String sapAdmin;
     private String correoAdmin;
-    private Byte[] imagenAdmin;
-    private String empresaAdmin;
-    private String provinciaAdmin;
-    private String zonaAdmin;
-    private String estadoAdmin;
-    private Set<RolAdminDto> rolAdmins = new HashSet<>();
-    private Set<UsuarioDto> usuarios = new HashSet<>();
+    //private Byte[] imagenAdmin;
+    //private String empresaAdmin;
+    //private String provinciaAdmin;
+    //private String zonaAdmin;
+    //private String estadoAdmin;
+    //private Set<RolAdminDto> rolAdmins = new HashSet<>();
+    //private Set<UsuarioDto> usuarios = new HashSet<>();
 }
