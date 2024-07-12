@@ -38,7 +38,8 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> {
                     authorize.requestMatchers("/api/admins/auth/register", "/api/admins/auth/login").permitAll()
-                            .requestMatchers("/api/admins/**").hasAuthority("AdminDO");
+                            .requestMatchers("/api/admins/profile").hasAnyAuthority("AdminDO", "AdminTienda", "ROLE_ADMIN")
+                            .requestMatchers("/api/admins/**").hasAnyAuthority("AdminDO", "AdminTienda");
                     //authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     authorize.anyRequest().authenticated();
                 });
@@ -59,6 +60,5 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
 
 }

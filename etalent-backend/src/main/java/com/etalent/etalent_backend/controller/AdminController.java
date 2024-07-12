@@ -12,9 +12,10 @@ import java.util.List;
 @CrossOrigin("*")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/admins")
+//@RequestMapping("/api/admins")
 public class AdminController {
 
+    /*
     private AdminService adminService;
 
     //Build Post Admin REST API
@@ -60,4 +61,6 @@ public class AdminController {
         return ResponseEntity.ok(updatedAdmin);
     }
 
+
+     */
 }
