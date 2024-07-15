@@ -1,5 +1,6 @@
 package com.etalent.etalent_backend.service.impl;
 
+import com.etalent.etalent_backend.controller.AdminRegisterController;
 import com.etalent.etalent_backend.dto.AdminLoginResponseDto;
 import com.etalent.etalent_backend.dto.AdminRegisterDto;
 import com.etalent.etalent_backend.entity.Admin;
@@ -11,6 +12,8 @@ import com.etalent.etalent_backend.service.AdminRegisterService;
 import com.etalent.etalent_backend.security.JwtTokenProvider;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,6 +33,8 @@ public class AdminRegisterServiceImpl implements AdminRegisterService {
     private PasswordEncoder passwordEncoder;
     private JwtTokenProvider jwtTokenProvider;
     private RolAdminRepository rolAdminRepository;
+
+    private static final Logger log = LoggerFactory.getLogger(AdminRegisterServiceImpl.class);
 
     @Override
     @Transactional
@@ -57,14 +62,17 @@ public class AdminRegisterServiceImpl implements AdminRegisterService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtTokenProvider.generateToken(authentication.getName());
 
+        Admin admin = adminRegisterRepository.findByCorreoAdmin(correoAdmin).orElseThrow(
+                () -> new RuntimeException("Admin no encontrado"));
 
-        Admin admin = adminRegisterRepository.findByCorreoAdmin(correoAdmin).orElseThrow(() -> {
-                    return new RuntimeException("Admin no encontrado");
-                });
+        log.info("Admin encontrado: " + admin.getIdAdmin());
+        log.info("Roles asignados al admin: " + admin.getRolAdmins().size());
 
-        String userRole = admin.getRolAdmins().stream().findFirst().map(
-                role -> role.getNombreRol()).orElse("Desconocido");
+        Set<String> roles = admin.getRolAdmins().stream()
+                .map(RolAdmin::getNombreRol)
+                .collect(Collectors.toSet());
 
-        return new AdminLoginResponseDto(token, userRole);
+        log.info("Roles del recuperados: " + roles);
+        return new AdminLoginResponseDto(token, roles);
     }
 }

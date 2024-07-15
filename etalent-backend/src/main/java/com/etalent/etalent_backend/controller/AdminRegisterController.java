@@ -31,6 +31,7 @@ public class AdminRegisterController {
     public ResponseEntity<?> loginAdmin(@RequestBody AdminLoginDto adminLoginDto){
         try {
             AdminLoginResponseDto response = adminRegisterService.authenticateAdmin(adminLoginDto.getCorreoAdmin(), adminLoginDto.getContraAdmin());
+            log.info("Respuesta de login:" + response);
             return new ResponseEntity<>(response, HttpStatus.OK);
 
         }catch (RuntimeException e){

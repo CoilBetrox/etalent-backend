@@ -14,6 +14,6 @@ import java.util.Optional;
 public interface AdminRegisterRepository extends JpaRepository<Admin, Integer> {
     Optional<Admin> findByCorreoAdmin(String correoAdmin);
 
-    @Query("SELECT a FROM Admin a JOIN a.rolAdmins r WHERE r.nombreRol = :rolAdmins")
-    List<Admin> findByRolNombre(@Param("rolAdmins") String rolAdmins);
+    @Query("SELECT a FROM Admin a JOIN a.rolAdmins r WHERE r.nombreRol = :rolNombre")
+    List<Admin> findByRolNombre(@Param("rolNombre") String rolNombre);
 }
