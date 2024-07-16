@@ -35,9 +35,9 @@ public class Admin implements UserDetails{
     @Column(name = "contra_admin")
     private String contraAdmin;
 
-    @Lob
-    @Column(name = "imagen_admin")
-    private Byte[] imagenAdmin;
+    //@Lob
+    //@Column(name = "imagen_admin")
+    //private Byte[] imagenAdmin;
 
     @Column(name = "empresa_admin")
     private String empresaAdmin;
