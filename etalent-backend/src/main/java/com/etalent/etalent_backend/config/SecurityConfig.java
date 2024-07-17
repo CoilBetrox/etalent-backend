@@ -1,28 +1,24 @@
 package com.etalent.etalent_backend.config;
 
-import com.etalent.etalent_backend.repository.AdminRegisterRepository;
 import com.etalent.etalent_backend.security.JwtAuthenticationEntryPoint;
 import com.etalent.etalent_backend.security.JwtAuthenticationFilter;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -36,10 +32,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> {
-                    authorize.requestMatchers("/api/admins/auth/register", "/api/admins/auth/login").permitAll()
-                            .requestMatchers("/api/admins/profile").hasAnyAuthority("AdminDO", "AdminTienda", "ROLE_ADMIN")
-                            .requestMatchers("/api/admins/**").hasAnyAuthority("AdminDO", "AdminTienda");
+                    authorize.requestMatchers(SecurityConstants.AUTH_REGISTER_URL, SecurityConstants.AUTH_LOGIN_URL).permitAll()
+                            .requestMatchers(SecurityConstants.ADMIN_PROFILE_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO, SecurityConstants.ROLE_ADMIN_TIENDA, SecurityConstants.ROLE_ADMIN)
+                            .requestMatchers(SecurityConstants.ADMIN_BY_ROLE_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO)
+                            .requestMatchers(SecurityConstants.USERS_BY_ADMIN_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO)
+                            .requestMatchers("/api/admins/**").hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO, SecurityConstants.ROLE_ADMIN_TIENDA);
                     //authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     authorize.anyRequest().authenticated();
                 });
@@ -47,6 +46,7 @@ public class SecurityConfig {
                 .authenticationEntryPoint(authenticationEntryPoint));
 
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return  http.build();
     }
@@ -61,4 +61,17 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:8080")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
+    }
 }

@@ -26,5 +26,4 @@ public class RolUsuario {
 
     @OneToMany(mappedBy = "rolUsuario")
     private List<Usuario> usuario;
-
 }

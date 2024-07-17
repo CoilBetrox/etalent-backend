@@ -28,7 +28,7 @@ dependencies {
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	//implementation("com.microsoft.sqlserver:mssql-jdbc:9.4.0.jre11")
-	implementation("org.postgresql:postgresql:42.5.0")
+	implementation("org.postgresql:postgresql:42.7.3")
 	implementation("org.mapstruct:mapstruct:1.5.5.Final")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 	//Jwt

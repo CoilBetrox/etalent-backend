@@ -11,5 +11,5 @@ public interface AdminPerfilMapperM {
     AdminPerfilMapperM INSTANCE = Mappers.getMapper(AdminPerfilMapperM.class);
 
     AdminPerfilDto toAdminPerfilDto(Admin admin);
-    Admin toAdminPerfilDto(AdminPerfilDto adminPerfilDto);
+    Admin toAdmin(AdminPerfilDto adminPerfilDto);
 }

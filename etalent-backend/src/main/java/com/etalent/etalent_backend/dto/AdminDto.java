@@ -18,7 +18,4 @@ public class AdminDto {
     private String empresaAdmin;
     //private String provinciaAdmin;
     private String zonaAdmin;
-    //private String estadoAdmin;
-    //private Set<RolAdminDto> rolAdmins = new HashSet<>();
-    //private Set<UsuarioDto> usuarios = new HashSet<>();
 }

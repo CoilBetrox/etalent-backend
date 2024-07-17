@@ -9,6 +9,6 @@ import org.mapstruct.factory.Mappers;
 public interface AdminRegisterMapperM {
     AdminRegisterMapperM INSTANCE = Mappers.getMapper(AdminRegisterMapperM.class);
 
-    AdminRegisterDto toAdminDto(Admin admin);
+    AdminRegisterDto toAdminRegisterDto(Admin admin);
     Admin toAdmin(AdminRegisterDto adminRegisterDto);
 }

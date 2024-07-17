@@ -12,17 +12,23 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "roles_admin")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 public class RolAdmin implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_rol")
+    @EqualsAndHashCode.Include
     private Integer idRol;
 
     @Column(name = "nombre_rol")
+    @EqualsAndHashCode.Include
     private String nombreRol;
 
     @ManyToMany(mappedBy = "rolAdmins")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<Admin> admins = new HashSet<>();
 
     @Override

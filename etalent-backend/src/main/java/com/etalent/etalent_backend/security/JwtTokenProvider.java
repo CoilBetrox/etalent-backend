@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -18,7 +17,6 @@ import java.util.Date;
 @Component
 @ConfigurationProperties(prefix = "app")
 public class JwtTokenProvider {
-
 
     @Value("${app.jwt-secret}")
     private String jwtSecretValue;
@@ -57,7 +55,6 @@ public class JwtTokenProvider {
             logger.error("Error al generar el token: ", e);
             throw new RuntimeException("No se pudo generar el token", e);
         }
-
     }
 
     private static Key key() {
@@ -85,5 +82,4 @@ public class JwtTokenProvider {
             return false;
         }
     }
-
 }

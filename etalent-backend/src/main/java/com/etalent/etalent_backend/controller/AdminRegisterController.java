@@ -3,7 +3,6 @@ package com.etalent.etalent_backend.controller;
 import com.etalent.etalent_backend.dto.AdminLoginDto;
 import com.etalent.etalent_backend.dto.AdminLoginResponseDto;
 import com.etalent.etalent_backend.dto.AdminRegisterDto;
-import com.etalent.etalent_backend.entity.JwtAuthResponse;
 import com.etalent.etalent_backend.service.AdminRegisterService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;

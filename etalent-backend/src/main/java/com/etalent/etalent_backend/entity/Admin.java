@@ -16,11 +16,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Entity
 @Table(name = "admins")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 public class Admin implements UserDetails{
 
     @Id
     @GeneratedValue( strategy = GenerationType.SEQUENCE)
     @Column(name = "id_admin")
+    @EqualsAndHashCode.Include
     private Integer idAdmin;
 
     @Column(name = "nombre_admin")
@@ -54,6 +57,8 @@ public class Admin implements UserDetails{
     @Column(name = "is_verified")
     private boolean isVerified = true;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
     @JoinTable(
             name = "admin_rol_admin",
@@ -62,12 +67,18 @@ public class Admin implements UserDetails{
     )
     private Set<RolAdmin> rolAdmins = new HashSet<>();
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Feedback> feedbacks = new HashSet<>();
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Usuario> usuarios = new HashSet<>();
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<ComentarioFeedback> comentarios = new HashSet<>();
 

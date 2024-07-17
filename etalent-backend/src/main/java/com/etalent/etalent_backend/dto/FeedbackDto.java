@@ -1,9 +1,6 @@
 package com.etalent.etalent_backend.dto;
 
 import com.etalent.etalent_backend.entity.ComentarioFeedback;
-import com.etalent.etalent_backend.entity.RolUsuario;
-import com.etalent.etalent_backend.entity.Usuario;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;

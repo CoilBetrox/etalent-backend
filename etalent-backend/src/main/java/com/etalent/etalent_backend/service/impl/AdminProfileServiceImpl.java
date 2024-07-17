@@ -3,10 +3,14 @@ package com.etalent.etalent_backend.service.impl;
 import com.etalent.etalent_backend.dto.AdminDto;
 import com.etalent.etalent_backend.dto.AdminPerfilDto;
 import com.etalent.etalent_backend.dto.AdminUpdateDto;
+import com.etalent.etalent_backend.dto.UsuarioDto;
 import com.etalent.etalent_backend.entity.Admin;
+import com.etalent.etalent_backend.entity.Usuario;
 import com.etalent.etalent_backend.mapper.AdminMapperM;
 import com.etalent.etalent_backend.mapper.AdminPerfilMapperM;
+import com.etalent.etalent_backend.mapper.UsuarioMapperM;
 import com.etalent.etalent_backend.repository.AdminRegisterRepository;
+import com.etalent.etalent_backend.repository.AdminRepository;
 import com.etalent.etalent_backend.service.AdminProfileService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,7 @@ import java.util.stream.Collectors;
 public class AdminProfileServiceImpl implements AdminProfileService {
 
     private AdminRegisterRepository adminRegisterRepository;
+    private AdminRepository adminRepository;
 
     @Override
     @Transactional
@@ -52,10 +57,18 @@ public class AdminProfileServiceImpl implements AdminProfileService {
     @Override
     @Transactional(readOnly = true)
     public List<AdminDto> getAdminsByRole(String rolNombre) {
-        List<Admin> admins = adminRegisterRepository.findByRolNombre(rolNombre);
+        List<Admin> admins = adminRepository.findByRolAdminsNombreRol(rolNombre);
         return admins.stream()
                 .map(AdminMapperM.INSTANCE::toAdminDto)
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<UsuarioDto> getUsuariosByAdmin(Integer adminId) {
+        List<Usuario> usuarios = adminRepository.findUsuariosByAdminId(adminId);
+        return usuarios.stream()
+                .map(UsuarioMapperM.INSTANCE::toUsuarioDto)
+                .collect(Collectors.toList());
+    }
 }

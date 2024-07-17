@@ -16,8 +16,9 @@ public interface ComentarioFeedbackMapperM {
     @Mapping(target = "adminId", source = "admin.idAdmin")
     ComentarioFeedbackDto toComentarioFeedbackDto(ComentarioFeedback comentarioFeedback);
 
-    @Mapping(target = "feedback", ignore = true)
-    @Mapping(target = "usuario", ignore = true)
-    @Mapping(target = "admin", ignore = true)
+    //@Mapping(target = "feedback", ignore = true)
+    //@Mapping(target = "usuario", ignore = true)
+    //@Mapping(target = "admin", ignore = true)
+    @InheritInverseConfiguration
     ComentarioFeedback toComentarioFeedback(ComentarioFeedbackDto comentarioFeedbackDto);
 }

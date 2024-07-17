@@ -2,6 +2,7 @@ package com.etalent.etalent_backend.mapper;
 
 import com.etalent.etalent_backend.dto.FeedbackDto;
 import com.etalent.etalent_backend.entity.Feedback;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -19,7 +20,8 @@ public interface FeedbackMapperM {
     @Mapping(source = "admin.nombreAdmin", target = "nombreAdmin")
     FeedbackDto toFeedbackDto(Feedback feedback);
 
-    @Mapping(target = "usuario.idUsuario", source = "usuarioId")
-    @Mapping(target = "admin.idAdmin", source = "adminId")
+    //@Mapping(target = "usuario.idUsuario", source = "usuarioId")
+    //@Mapping(target = "admin.idAdmin", source = "adminId")
+    @InheritInverseConfiguration
     Feedback toFeedback(FeedbackDto feedbackDto);
 }

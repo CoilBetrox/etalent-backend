@@ -1,6 +1,5 @@
 package com.etalent.etalent_backend.service.impl;
 
-import com.etalent.etalent_backend.controller.AdminRegisterController;
 import com.etalent.etalent_backend.dto.AdminLoginResponseDto;
 import com.etalent.etalent_backend.dto.AdminRegisterDto;
 import com.etalent.etalent_backend.entity.Admin;
@@ -52,7 +51,7 @@ public class AdminRegisterServiceImpl implements AdminRegisterService {
         admin.setRolAdmins(roles);
 
         Admin savedAdmin = adminRegisterRepository.save(admin);
-        return AdminRegisterMapperM.INSTANCE.toAdminDto(savedAdmin);
+        return AdminRegisterMapperM.INSTANCE.toAdminRegisterDto(savedAdmin);
     }
 
     @Override

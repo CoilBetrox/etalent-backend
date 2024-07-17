@@ -10,5 +10,4 @@ public interface UsuarioService {
     List<UsuarioDto> getAllUsuarios();
     UsuarioDto updateUsuario(Integer usuarioId, UsuarioDto updatedUsuario);
     void deleteUsuario(Integer usuarioId);
-
 }
