@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/feedbacks")
@@ -35,5 +35,11 @@ public class FeedbackController {
     @GetMapping
     public ResponseEntity<List<FeedbackDto>> getAllFeedbacks() {
         return ResponseEntity.ok(feedbackService.getAllFeedbacks());
+    }
+
+    @GetMapping("/admin-tienda")
+    public ResponseEntity<List<FeedbackDto>> getAlFeedbacksByAdminTienda(){
+        List<FeedbackDto> feedbacks = feedbackService.getAllFeedbacksByAdminTienda();
+        return ResponseEntity.ok(feedbacks);
     }
 }

@@ -3,7 +3,7 @@ package com.etalent.etalent_backend.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @AllArgsConstructor
 @RestController
 //@RequestMapping("/api/admins")

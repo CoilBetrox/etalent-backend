@@ -1,6 +1,7 @@
 package com.etalent.etalent_backend.dto;
 
 import com.etalent.etalent_backend.entity.ComentarioFeedback;
+import com.etalent.etalent_backend.entity.Feedback;
 import lombok.*;
 
 import java.util.Date;
@@ -22,4 +23,5 @@ public class FeedbackDto {
     private Integer adminId;
     private String nombreAdmin;
     private Set<ComentarioFeedback> comentarios;
+
 }

@@ -63,4 +63,12 @@ public class FeedbackServiceImpl implements FeedbackService {
         return feedbacks.stream().map(FeedbackMapperM.INSTANCE::toFeedbackDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FeedbackDto> getAllFeedbacksByAdminTienda() {
+        return feedbackRepository.findByTipoAdmin().stream()
+                .map(FeedbackMapperM.INSTANCE::toFeedbackDto)
+                .collect(Collectors.toList());
+    }
 }

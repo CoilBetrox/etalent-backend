@@ -32,13 +32,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                //.cors(Customizer.withDefaults())
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> {
                     authorize.requestMatchers(SecurityConstants.AUTH_REGISTER_URL, SecurityConstants.AUTH_LOGIN_URL).permitAll()
                             .requestMatchers(SecurityConstants.ADMIN_PROFILE_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO, SecurityConstants.ROLE_ADMIN_TIENDA, SecurityConstants.ROLE_ADMIN)
                             .requestMatchers(SecurityConstants.ADMIN_BY_ROLE_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO)
                             .requestMatchers(SecurityConstants.USERS_BY_ADMIN_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO)
-                            .requestMatchers("/api/admins/**").hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO, SecurityConstants.ROLE_ADMIN_TIENDA);
+                            .requestMatchers(SecurityConstants.USERS_GET).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_TIENDA)
+
+                            .requestMatchers("/api/admins/**").hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO, SecurityConstants.ROLE_ADMIN_TIENDA)
+                            .requestMatchers("/api/usuarios/**").hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO, SecurityConstants.ROLE_ADMIN_TIENDA);
+
                     authorize.anyRequest().authenticated();
                 });
         http.exceptionHandling( exeption -> exeption
@@ -47,7 +51,7 @@ public class SecurityConfig {
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        return  http.build();
+        return http.build();
     }
 
     @Bean
@@ -60,14 +64,14 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    /*
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:8080")
+                        .allowedOrigins("http://localhost:8080") // Especifique el origen exacto
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
@@ -75,5 +79,4 @@ public class SecurityConfig {
         };
     }
 
-     */
 }
