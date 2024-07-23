@@ -26,31 +26,42 @@ public class Admin implements UserDetails{
     @EqualsAndHashCode.Include
     private Integer idAdmin;
 
+    //Nombre Completo
     @Column(name = "nombre_admin")
     private String nombreAdmin;
 
+    //20011XXX
     @Column(name = "sap_admin")
     private String sapAdmin;
 
+    //Correo@correo.com
     @Column(name = "correo_admin")
     private String correoAdmin;
 
+    //*********
     @Column(name = "contra_admin")
     private String contraAdmin;
 
-    //@Lob
-    //@Column(name = "imagen_admin")
-    //private Byte[] imagenAdmin;
-
+    //ETA - RM
     @Column(name = "empresa_admin")
     private String empresaAdmin;
 
+    //Provincias EC
     @Column(name = "provincia_admin")
     private String provinciaAdmin;
 
-    @Column(name = "zona_admin")
-    private String zonaAdmin;
+    @Column(name = "cargo_admin")
+    private String cargoAdmin = "Jefe de Ventas";
 
+    //Zona-seccion (Jefaturas-Belleza-calzado-tecnología)
+    @Column(name = "zona_admin")
+    private String zonaAdmin = "Jefaturas";
+
+    //Ubicacion tienda (Pana Norte)
+    @Column(name = "tienda_admin")
+    private String tiendaAdmin;
+
+    //Activo - Inactivo
     @Column(name = "estado_admin")
     private String estadoAdmin;
 

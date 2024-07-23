@@ -14,8 +14,9 @@ public class AdminDto {
     private String nombreAdmin;
     private String sapAdmin;
     private String correoAdmin;
-    //private Byte[] imagenAdmin;
-    private String empresaAdmin;
-    //private String provinciaAdmin;
+    private String cargoAdmin;
     private String zonaAdmin;
+    private String empresaAdmin;
+    private String tiendaAdmin;
+
 }

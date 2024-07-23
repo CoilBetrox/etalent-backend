@@ -1,5 +1,6 @@
 package com.etalent.etalent_backend.controller;
 
+import com.etalent.etalent_backend.dto.UsuarioDirectorioDto;
 import com.etalent.etalent_backend.dto.UsuarioDto;
 import com.etalent.etalent_backend.service.UsuarioService;
 import lombok.AllArgsConstructor;
@@ -34,8 +35,8 @@ public class UsuarioController {
 
     //Build Get All Usuarios REST API
     @GetMapping
-    public ResponseEntity<List<UsuarioDto>> getAllUsuarios() {
-        List<UsuarioDto> usuarioDtos = usuarioService.getAllUsuarios();
+    public ResponseEntity<List<UsuarioDirectorioDto>> getAllUsuarios() {
+        List<UsuarioDirectorioDto> usuarioDtos = usuarioService.getAllUsuarios();
         return ResponseEntity.ok(usuarioDtos);
     }
 

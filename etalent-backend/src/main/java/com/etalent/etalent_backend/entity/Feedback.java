@@ -22,6 +22,9 @@ public class Feedback {
     @Column(name = "descripcion_feedback")
     private String descripcionFeedback;
 
+    @Column(name = "tipo_feedback")
+    private String tipoFeedback;
+
     @Column(name = "fecha_creacion_feedback")
     private Date fechaCreacionFeedback;
 

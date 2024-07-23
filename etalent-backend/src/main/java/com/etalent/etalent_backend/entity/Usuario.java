@@ -22,17 +22,46 @@ public class Usuario {
     @EqualsAndHashCode.Include
     private Integer idUsuario;
 
+    //Nombre Apellido
     @Column(name = "nombre_usuario")
     @EqualsAndHashCode.Include
     private String nombreUsuario;
 
+    //20011XXX
+    @Column(name = "sap_usuario")
+    @EqualsAndHashCode.Include
+    private String sapUsuario;
+
+    //nombreapellido@correo.com
     @Column(name= "correo_usuario")
     @EqualsAndHashCode.Include
     private String correoUsuario;
 
-    @Column(name = "sap_usuario")
+    //cajero, empl mostrador, ...
+    @Column(name= "cargo_usuario")
     @EqualsAndHashCode.Include
-    private String sapUsuario;
+    private String cargoUsuario;
+
+    //Tecnología, Mujer, Hombre
+    @Column(name= "zona_usuario")
+    @EqualsAndHashCode.Include
+    private String zonaUsuario;
+
+    @Column(name= "empresa_usuario")
+    @EqualsAndHashCode.Include
+    private String empresaUsuario;
+
+    @Column(name= "provincia_usuario")
+    @EqualsAndHashCode.Include
+    private String provinciaUsuario;
+
+    @Column(name= "tienda_usuario")
+    @EqualsAndHashCode.Include
+    private String tiendaUsuario;
+
+    @Column(name= "jornada_usuario")
+    @EqualsAndHashCode.Include
+    private String jornadaUsuario;
 
     @Column(name = "estado_usuario")
     @EqualsAndHashCode.Include

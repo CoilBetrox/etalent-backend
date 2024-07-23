@@ -19,7 +19,9 @@ public class AdminRegisterDto {
     private String contraAdmin;
     private String empresaAdmin;
     private String provinciaAdmin;
+    private String cargoAdmin;
     private String zonaAdmin;
+    private String tiendaAdmin;
     private String estadoAdmin;
     private Set<RolAdminDto> rolAdmins = new HashSet<>();
 }

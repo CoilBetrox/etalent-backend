@@ -1,11 +1,13 @@
 package com.etalent.etalent_backend.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioDto {
+public class UsuarioDirectorioDto {
     private Integer idUsuario;
     private String nombreUsuario;
     private String sapUsuario;
@@ -13,9 +15,7 @@ public class UsuarioDto {
     private String cargoUsuario;
     private String zonaUsuario;
     private String empresaUsuario;
-    private String provinciaUsuario;
     private String tiendaUsuario;
     private String jornadaUsuario;
-    private String estadoUsuario;
     private RolUsuarioDto rolUsuario;
 }

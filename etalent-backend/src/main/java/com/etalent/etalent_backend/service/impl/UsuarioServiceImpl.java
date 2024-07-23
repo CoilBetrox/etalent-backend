@@ -1,12 +1,14 @@
 package com.etalent.etalent_backend.service.impl;
 
 import com.etalent.etalent_backend.dto.RolUsuarioDto;
+import com.etalent.etalent_backend.dto.UsuarioDirectorioDto;
 import com.etalent.etalent_backend.dto.UsuarioDto;
 import com.etalent.etalent_backend.entity.Admin;
 import com.etalent.etalent_backend.entity.RolUsuario;
 import com.etalent.etalent_backend.entity.Usuario;
 import com.etalent.etalent_backend.exceptions.ResourceNotFoundException;
 import com.etalent.etalent_backend.mapper.RolUsuarioMapperM;
+import com.etalent.etalent_backend.mapper.UsuarioDirectorioMapperM;
 import com.etalent.etalent_backend.mapper.UsuarioMapperM;
 import com.etalent.etalent_backend.repository.AdminRegisterRepository;
 import com.etalent.etalent_backend.repository.AdminRepository;
@@ -61,14 +63,14 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<UsuarioDto> getAllUsuarios() {
+    public List<UsuarioDirectorioDto> getAllUsuarios() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String correoAdmin = authentication.getName();
         Admin admin = adminRegisterRepository.findByCorreoAdmin(correoAdmin)
                 .orElseThrow(()-> new RuntimeException("Admin no encontrado"));
 
         List<Usuario> usuarios = usuarioRepository.findAllByAdmin(admin);
-        return usuarios.stream().map(UsuarioMapperM.INSTANCE::toUsuarioDto).collect(Collectors.toList());
+        return usuarios.stream().map(UsuarioDirectorioMapperM.INSTANCE::toUsuarioDirectorioDto).collect(Collectors.toList());
     }
 
     @Override
