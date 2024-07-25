@@ -15,6 +15,7 @@ public class ComentarioFeedbackDto {
     private Integer feedbackId;
     private Integer usuarioId;
     private Integer adminId;
+    private String nombreAdmin;
     private String contenido;
     private Date fechaComentario;
 }

@@ -23,7 +23,6 @@ public class Admin implements UserDetails{
     @Id
     @GeneratedValue( strategy = GenerationType.SEQUENCE)
     @Column(name = "id_admin")
-    @EqualsAndHashCode.Include
     private Integer idAdmin;
 
     //Nombre Completo
@@ -85,7 +84,7 @@ public class Admin implements UserDetails{
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Usuario> usuarios = new HashSet<>();
 
     @EqualsAndHashCode.Exclude

@@ -4,16 +4,14 @@ import com.etalent.etalent_backend.dto.RolUsuarioDto;
 import com.etalent.etalent_backend.dto.UsuarioDirectorioDto;
 import com.etalent.etalent_backend.dto.UsuarioDto;
 import com.etalent.etalent_backend.entity.Admin;
+import com.etalent.etalent_backend.entity.Feedback;
 import com.etalent.etalent_backend.entity.RolUsuario;
 import com.etalent.etalent_backend.entity.Usuario;
 import com.etalent.etalent_backend.exceptions.ResourceNotFoundException;
 import com.etalent.etalent_backend.mapper.RolUsuarioMapperM;
 import com.etalent.etalent_backend.mapper.UsuarioDirectorioMapperM;
 import com.etalent.etalent_backend.mapper.UsuarioMapperM;
-import com.etalent.etalent_backend.repository.AdminRegisterRepository;
-import com.etalent.etalent_backend.repository.AdminRepository;
-import com.etalent.etalent_backend.repository.RolUsuarioRepository;
-import com.etalent.etalent_backend.repository.UsuarioRepository;
+import com.etalent.etalent_backend.repository.*;
 import com.etalent.etalent_backend.service.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.relational.core.sql.In;
@@ -29,9 +27,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
 
+    private final FeedbackRepository feedbackRepository;
     private UsuarioRepository usuarioRepository;
     private AdminRegisterRepository adminRegisterRepository;
     private RolUsuarioRepository rolUsuarioRepository;
+    private ComentarioFeedbackRepository comentarioFeedbackRepository;
 
     @Override
     @Transactional
@@ -100,9 +100,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     @Transactional
     public void deleteUsuario(Integer usuarioId) {
-        Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow(
-                () -> new ResourceNotFoundException("Usuario is not exist with given id: "+usuarioId)
-        );
-        usuarioRepository.deleteById(usuarioId);
+
+        usuarioRepository.deleteComentariosByUsuarioId(usuarioId);
+
+        usuarioRepository.deleteFeedbacksByUsuarioId(usuarioId);
+
+        usuarioRepository.deleteUsuarioById(usuarioId);
     }
 }

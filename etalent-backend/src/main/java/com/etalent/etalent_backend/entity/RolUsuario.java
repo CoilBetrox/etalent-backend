@@ -24,6 +24,6 @@ public class RolUsuario {
     @Column(name = "nombre_rol_usuario")
     private String nombreRolUsuario;
 
-    @OneToMany(mappedBy = "rolUsuario")
+    @OneToMany(mappedBy = "rolUsuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Usuario> usuario;
 }

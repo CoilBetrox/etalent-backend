@@ -19,17 +19,20 @@ public class ComentarioFeedback {
     @Column(name = "id_comentario")
     private Integer idComentario;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "feedback_id")
     private Feedback feedback;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id", nullable = true)
     private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "admin_id", nullable = true)
     private Admin admin;
+
+    @Column(name = "nombre_admin")
+    private String nombreAdmin;
 
     @Column(name = "contenido")
     private String contenido;

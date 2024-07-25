@@ -19,7 +19,6 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_usuario")
-    @EqualsAndHashCode.Include
     private Integer idUsuario;
 
     //Nombre Apellido
@@ -77,7 +76,7 @@ public class Usuario {
     private Set<Feedback> feedbacks = new HashSet<>();
 
     @EqualsAndHashCode.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "admin_id")
     private Admin admin;
 

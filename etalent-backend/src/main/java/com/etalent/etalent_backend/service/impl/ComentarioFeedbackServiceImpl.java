@@ -43,6 +43,7 @@ public class ComentarioFeedbackServiceImpl implements ComentarioFeedbackService 
         if (comentarioFeedbackDto.getUsuarioId() != null) {
             usuario = usuarioRepository.findById(comentarioFeedbackDto.getUsuarioId())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
         }
 
         ComentarioFeedback comentarioFeedback = ComentarioFeedbackMapperM.INSTANCE.toComentarioFeedback(comentarioFeedbackDto);

@@ -26,7 +26,7 @@ public class RolAdmin implements GrantedAuthority {
     @EqualsAndHashCode.Include
     private String nombreRol;
 
-    @ManyToMany(mappedBy = "rolAdmins")
+    @ManyToMany(mappedBy = "rolAdmins", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Admin> admins = new HashSet<>();
