@@ -39,6 +39,8 @@ public class SecurityConfig {
                             .requestMatchers(SecurityConstants.ADMIN_BY_ROLE_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO)
                             .requestMatchers(SecurityConstants.USERS_BY_ADMIN_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO)
                             .requestMatchers(SecurityConstants.USERS_GET).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_TIENDA)
+                            .requestMatchers(SecurityConstants.CURSOS_BY_ADMINID).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_TIENDA)
+                            .requestMatchers(SecurityConstants.CURSOS_BY_ADMINID).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO)
 
                             .requestMatchers("/api/admins/**").hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO, SecurityConstants.ROLE_ADMIN_TIENDA)
                             .requestMatchers("/api/usuarios/**").hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO, SecurityConstants.ROLE_ADMIN_TIENDA);

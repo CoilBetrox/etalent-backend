@@ -84,7 +84,8 @@ public class Usuario {
     private Set<ComentarioFeedback> comentarios = new HashSet<>();
 
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "usuarios")
     private Set<CursoUsuario> cursosUsuario = new HashSet<>();
 
 }
