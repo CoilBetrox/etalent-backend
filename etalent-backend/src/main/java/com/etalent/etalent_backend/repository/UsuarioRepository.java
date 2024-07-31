@@ -27,4 +27,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Transactional
     @Query("DELETE FROM Usuario u WHERE u.idUsuario = :usuarioId")
     void deleteUsuarioById(@Param("usuarioId") Integer usuarioId);
+
+    List<Usuario> findByAdmin(Admin admin);
 }

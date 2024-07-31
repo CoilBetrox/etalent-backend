@@ -29,13 +29,10 @@ public class CursoUsuarioController {
         return ResponseEntity.ok(cursosUsuario);
     }
 
-    ////
-    //// Aquí me quedé
-    ////
     @PutMapping("{idCursoUsuario}")
-    public ResponseEntity<CursoUsuarioDto> updateCursoUsuario(@PathVariable Integer idCusoUsuario, @RequestBody CursoUsuarioDto cursoUsuarioDto ) {
+    public ResponseEntity<CursoUsuarioDto> updateCursoUsuario(@PathVariable Integer idCursoUsuario, @RequestBody CursoUsuarioDto cursoUsuarioDto ) {
         CursoUsuarioDto updatedCursUsuario = cursoUsuarioService.updateCursoUsuario(
-                idCusoUsuario, cursoUsuarioDto.getAvanceCurso(), cursoUsuarioDto.getEstadoCurso());
+                idCursoUsuario, cursoUsuarioDto.getAvanceCurso(), cursoUsuarioDto.getEstadoCurso());
         return ResponseEntity.ok(updatedCursUsuario);
     }
 

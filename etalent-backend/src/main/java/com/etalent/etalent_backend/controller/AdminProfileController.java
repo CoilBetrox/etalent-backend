@@ -62,4 +62,16 @@ public class AdminProfileController {
         List<UsuarioDto> usuarios = adminProfileService.getUsuariosByAdmin(adminId);
         return ResponseEntity.ok(usuarios);
     }
+
+    @PutMapping("/{oldAdminId}/reassign/{newAdminId}")
+    public ResponseEntity<String> reassignUsers(
+            @PathVariable Integer oldAdminId,
+            @PathVariable Integer newAdminId){
+        try {
+            adminProfileService.reassignUsers(oldAdminId, newAdminId);
+            return ResponseEntity.ok("Usuarios reasignados correctamente");
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

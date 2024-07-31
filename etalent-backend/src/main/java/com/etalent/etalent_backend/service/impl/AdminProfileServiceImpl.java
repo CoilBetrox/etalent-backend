@@ -11,6 +11,7 @@ import com.etalent.etalent_backend.mapper.AdminPerfilMapperM;
 import com.etalent.etalent_backend.mapper.UsuarioMapperM;
 import com.etalent.etalent_backend.repository.AdminRegisterRepository;
 import com.etalent.etalent_backend.repository.AdminRepository;
+import com.etalent.etalent_backend.repository.UsuarioRepository;
 import com.etalent.etalent_backend.service.AdminProfileService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @Service
 public class AdminProfileServiceImpl implements AdminProfileService {
 
+    private final UsuarioRepository usuarioRepository;
     private AdminRegisterRepository adminRegisterRepository;
     private AdminRepository adminRepository;
 
@@ -70,5 +72,20 @@ public class AdminProfileServiceImpl implements AdminProfileService {
         return usuarios.stream()
                 .map(UsuarioMapperM.INSTANCE::toUsuarioDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void reassignUsers(Integer oldAdminId, Integer newAdminId) {
+        Admin oldAdmin = adminRepository.findById(oldAdminId)
+                .orElseThrow(() -> new RuntimeException("Admin no encontrado"));
+        Admin newAdmin = adminRepository.findById(newAdminId)
+                .orElseThrow(() -> new RuntimeException("Admin no encontrado"));
+
+        List<Usuario> usuarios = usuarioRepository.findByAdmin(oldAdmin);
+        for (Usuario usuario : usuarios) {
+            usuario.setAdmin(newAdmin);
+        }
+        usuarioRepository.saveAll(usuarios);
     }
 }

@@ -13,4 +13,5 @@ public interface AdminProfileService {
     AdminPerfilDto getAdminByEmail(String email);
     List<AdminDto> getAdminsByRole(String rolNombre);
     List<UsuarioDto> getUsuariosByAdmin(Integer adminId);
+    void reassignUsers(Integer oldAdminId, Integer newAdminId);
 }
