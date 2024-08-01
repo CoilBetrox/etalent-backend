@@ -64,7 +64,7 @@ public class AdminProfileController {
     }
 
     @PutMapping("/{oldAdminId}/reassign/{newAdminId}")
-    public ResponseEntity<String> reassignUsers(
+    public ResponseEntity<?> reassignUsers(
             @PathVariable Integer oldAdminId,
             @PathVariable Integer newAdminId){
         try {

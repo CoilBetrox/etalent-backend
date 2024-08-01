@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -66,6 +67,15 @@ public class Admin implements UserDetails{
 
     @Column(name = "is_verified")
     private boolean isVerified = true;
+
+    @Column(name = "verification_token")
+    private String verificationToken;
+
+    @Column(name = "password_reset_token")
+    private String passwordResetToken;
+
+    @Column(name = "pasword_reset_token_expiry")
+    private Date passwordResetTokenExpiry;
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

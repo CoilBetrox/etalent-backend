@@ -11,7 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminRegisterDto {
-    //Dto para registro
+
     private Integer idAdmin;
     private String nombreAdmin;
     private String sapAdmin;

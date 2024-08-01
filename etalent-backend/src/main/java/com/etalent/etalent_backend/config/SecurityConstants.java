@@ -8,6 +8,7 @@ public class SecurityConstants {
     public static final String USERS_BY_ADMIN_URL = "/api/admins/usersAdmin";
     public static final String USERS_GET = "/api/usuarios";
     public static final String CURSOS_BY_ADMINID = "/api/cursosUsuario";
+    public static final String CHANGE_ADMINS_BY_ID = "/api/admins";
 
     public static final String ROLE_ADMIN_DO = "AdminDO";
     public static final String ROLE_ADMIN_TIENDA = "AdminTienda";
