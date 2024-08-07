@@ -9,6 +9,7 @@ import com.etalent.etalent_backend.repository.AdminRegisterRepository;
 import com.etalent.etalent_backend.repository.RolAdminRepository;
 import com.etalent.etalent_backend.service.AdminRegisterService;
 import com.etalent.etalent_backend.security.JwtTokenProvider;
+import com.etalent.etalent_backend.service.EmailService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +34,7 @@ public class AdminRegisterServiceImpl implements AdminRegisterService {
     private PasswordEncoder passwordEncoder;
     private JwtTokenProvider jwtTokenProvider;
     private RolAdminRepository rolAdminRepository;
+    private EmailService emailService;
 
     private static final Logger log = LoggerFactory.getLogger(AdminRegisterServiceImpl.class);
 
@@ -43,7 +46,10 @@ public class AdminRegisterServiceImpl implements AdminRegisterService {
         }
         Admin admin = AdminRegisterMapperM.INSTANCE.toAdmin(adminRegisterDto);
         admin.setContraAdmin(passwordEncoder.encode(admin.getContraAdmin()));
-        admin.setVerified(true);    //false si verificación por correo
+        String verificationToken = generateVerificationToken();
+        admin.setVerificationToken(verificationToken);
+        admin.setVerified(false);
+
         Set<RolAdmin> roles = adminRegisterDto.getRolAdmins().stream()
                 .map(rolDto -> rolAdminRepository.findById(rolDto.getIdRol())
                         .orElseThrow( () -> new RuntimeException("Rol no encontrado" + rolDto.getNombreRol())))
@@ -51,7 +57,12 @@ public class AdminRegisterServiceImpl implements AdminRegisterService {
         admin.setRolAdmins(roles);
 
         Admin savedAdmin = adminRegisterRepository.save(admin);
-        return AdminRegisterMapperM.INSTANCE.toAdminRegisterDto(savedAdmin);
+        emailService.sendVerificationEmail(savedAdmin.getCorreoAdmin(), verificationToken);
+
+        AdminRegisterDto responseDto = AdminRegisterMapperM.INSTANCE.toAdminRegisterDto(savedAdmin);
+        responseDto.setVerificationToken(verificationToken);
+
+        return responseDto;
     }
 
     @Override
@@ -73,5 +84,9 @@ public class AdminRegisterServiceImpl implements AdminRegisterService {
 
         log.info("Roles del recuperados: " + roles);
         return new AdminLoginResponseDto(token, roles);
+    }
+
+    private String generateVerificationToken() {
+        return UUID.randomUUID().toString();
     }
 }

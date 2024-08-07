@@ -23,5 +23,7 @@ public class AdminRegisterDto {
     private String zonaAdmin;
     private String tiendaAdmin;
     private String estadoAdmin;
+    private boolean isVerified;
+    private String verificationToken;
     private Set<RolAdminDto> rolAdmins = new HashSet<>();
 }

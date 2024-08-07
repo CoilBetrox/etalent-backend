@@ -66,7 +66,7 @@ public class Admin implements UserDetails{
     private String estadoAdmin;
 
     @Column(name = "is_verified")
-    private boolean isVerified = true;
+    private boolean isVerified;
 
     @Column(name = "verification_token")
     private String verificationToken;

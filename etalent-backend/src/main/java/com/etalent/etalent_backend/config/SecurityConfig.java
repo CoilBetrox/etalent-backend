@@ -34,7 +34,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> {
-                    authorize.requestMatchers(SecurityConstants.AUTH_REGISTER_URL, SecurityConstants.AUTH_LOGIN_URL).permitAll()
+                    authorize.requestMatchers(SecurityConstants.AUTH_REGISTER_URL, SecurityConstants.AUTH_LOGIN_URL, SecurityConstants.AUTH_VERIFY_EMAIL_URL, SecurityConstants.AUTH_RESET_PASSWORD, SecurityConstants.AUTH_FORGOT_PASSWORD).permitAll()
                             .requestMatchers(SecurityConstants.ADMIN_PROFILE_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO, SecurityConstants.ROLE_ADMIN_TIENDA, SecurityConstants.ROLE_ADMIN)
                             .requestMatchers(SecurityConstants.ADMIN_BY_ROLE_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO)
                             .requestMatchers(SecurityConstants.USERS_BY_ADMIN_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO)
@@ -45,7 +45,6 @@ public class SecurityConfig {
 
                             .requestMatchers("/api/admins/**").hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO, SecurityConstants.ROLE_ADMIN_TIENDA)
                             .requestMatchers("/api/usuarios/**").hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO, SecurityConstants.ROLE_ADMIN_TIENDA);
-
                     authorize.anyRequest().authenticated();
                 });
         http.exceptionHandling( exeption -> exeption
@@ -53,7 +52,6 @@ public class SecurityConfig {
 
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
         return http.build();
     }
 
@@ -66,7 +64,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -81,5 +78,4 @@ public class SecurityConfig {
             }
         };
     }
-
 }
