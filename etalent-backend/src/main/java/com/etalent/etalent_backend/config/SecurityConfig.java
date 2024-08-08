@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> {
                     authorize.requestMatchers(SecurityConstants.AUTH_REGISTER_URL, SecurityConstants.AUTH_LOGIN_URL, SecurityConstants.AUTH_VERIFY_EMAIL_URL, SecurityConstants.AUTH_RESET_PASSWORD, SecurityConstants.AUTH_FORGOT_PASSWORD).permitAll()
                             .requestMatchers(SecurityConstants.ADMIN_PROFILE_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO, SecurityConstants.ROLE_ADMIN_TIENDA, SecurityConstants.ROLE_ADMIN)
+                            .requestMatchers(SecurityConstants.ADMIN_PROFILE_UPDATE_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO, SecurityConstants.ROLE_ADMIN_TIENDA, SecurityConstants.ROLE_ADMIN)
                             .requestMatchers(SecurityConstants.ADMIN_BY_ROLE_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO)
                             .requestMatchers(SecurityConstants.USERS_BY_ADMIN_URL).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO)
                             .requestMatchers(SecurityConstants.USERS_GET).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_TIENDA)
@@ -72,7 +73,7 @@ public class SecurityConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:8080") // Especifique el origen exacto
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
             }

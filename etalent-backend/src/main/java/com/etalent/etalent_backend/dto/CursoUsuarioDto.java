@@ -13,7 +13,9 @@ public class CursoUsuarioDto {
 
     private Integer idCursoUsuario;
     private String nombreCursoUsuario;
+    private String descripcionCurso;
     private Date fechaInicio;
+    private Date fechaFin;
     private Integer avanceCurso;
     private String estadoCurso;
     private Integer idUsuario;

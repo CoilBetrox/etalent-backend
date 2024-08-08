@@ -35,14 +35,14 @@ public class AdminProfileServiceImpl implements AdminProfileService {
         Admin admin = adminRegisterRepository.findByCorreoAdmin(email)
                 .orElseThrow(()-> new RuntimeException("Admin no encontrado"));
 
-        if (adminUpdateDto.getProvinciaAdmin() != null) {
-            admin.setProvinciaAdmin(adminUpdateDto.getProvinciaAdmin());
+        if (adminUpdateDto.getNombreAdmin() != null) {
+            admin.setNombreAdmin(adminUpdateDto.getNombreAdmin());
         }
-        if (adminUpdateDto.getEmpresaAdmin() != null){
-            admin.setEmpresaAdmin(adminUpdateDto.getEmpresaAdmin());
+        if (adminUpdateDto.getSapAdmin() != null){
+            admin.setSapAdmin(adminUpdateDto.getSapAdmin());
         }
-        if (adminUpdateDto.getZonaAdmin() != null) {
-            admin.setZonaAdmin(adminUpdateDto.getZonaAdmin());
+        if (adminUpdateDto.getCorreoAdmin() != null) {
+            admin.setCorreoAdmin(adminUpdateDto.getCorreoAdmin());
         }
         adminRegisterRepository.save(admin);
     }

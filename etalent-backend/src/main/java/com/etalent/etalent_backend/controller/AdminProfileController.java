@@ -34,8 +34,8 @@ public class AdminProfileController {
         }
     }
 
-    @PatchMapping("/profile")
-    public ResponseEntity<?> updateAdminPartial(@RequestBody AdminUpdateDto adminUpdateDto){
+    @PatchMapping("/profile-update")
+    public ResponseEntity<String> updateAdminPartial(@RequestBody AdminUpdateDto adminUpdateDto){
         try {
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
             adminProfileService.updateAdminPartial(adminUpdateDto, email);

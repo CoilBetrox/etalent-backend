@@ -25,8 +25,14 @@ public class CursoUsuario {
     @EqualsAndHashCode.Include
     private String nombreCursoUsuario;
 
+    @Column(name = "descripcion_curso")
+    private String descripcionCurso;
+
     @Column(name = "fecha_inicio")
     private Date fechaInicio;
+
+    @Column(name = "fecha_fin")
+    private Date fechaFin;
 
     @Column(name = "avance_curso")
     private Integer avanceCurso;

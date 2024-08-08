@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminUpdateDto {
-    private String provinciaAdmin;
-    private String empresaAdmin;
-    private String zonaAdmin;
+    private Integer idAdmin;
+    private String nombreAdmin;
+    private String sapAdmin;
+    private String correoAdmin;
 }
