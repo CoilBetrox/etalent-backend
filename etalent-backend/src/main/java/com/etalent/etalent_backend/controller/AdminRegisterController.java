@@ -56,8 +56,6 @@ public class AdminRegisterController {
         log.debug("Attempting to verify email with token: {}", token);
         try {
             Optional<Admin> adminOptional = adminRegisterRepository.findByVerificationToken(token);
-                    //.orElseThrow(() -> new ResourceNotFoundException("Token de verificación invalido"));
-
             if (adminOptional.isPresent()){
                 Admin admin = adminOptional.get();
                 admin.setVerified(true);
