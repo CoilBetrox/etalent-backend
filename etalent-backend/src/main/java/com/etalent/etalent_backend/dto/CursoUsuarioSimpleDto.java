@@ -4,18 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CursoUsuarioDto {
-
+public class CursoUsuarioSimpleDto {
     private Integer idCursoUsuario;
     private String nombreCursoUsuario;
-    private String descripcionCurso;
-    private Date fechaInicio;
-    private Date fechaFin;
-    private Integer avanceCurso;
-    private String estadoCurso;
 }

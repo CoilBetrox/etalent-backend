@@ -1,6 +1,8 @@
 package com.etalent.etalent_backend.controller;
 
+import com.etalent.etalent_backend.dto.CursoConUsuariosDto;
 import com.etalent.etalent_backend.dto.CursoUsuarioDto;
+import com.etalent.etalent_backend.dto.CursoUsuarioSimpleDto;
 import com.etalent.etalent_backend.service.CursoUsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,9 +19,9 @@ public class CursoUsuarioController {
 
     private CursoUsuarioService cursoUsuarioService;
 
-    @PostMapping("{usuarioId}")
-    public ResponseEntity<CursoUsuarioDto> crateCursoUsuario(@RequestBody CursoUsuarioDto cursoUsuarioDto, @PathVariable Integer usuarioId) {
-        CursoUsuarioDto savedCursoUsuario = cursoUsuarioService.createCursoUsuario(cursoUsuarioDto, usuarioId);
+    @PostMapping()
+    public ResponseEntity<CursoUsuarioDto> crateCursoUsuario(@RequestBody CursoUsuarioDto cursoUsuarioDto) {
+        CursoUsuarioDto savedCursoUsuario = cursoUsuarioService.createCursoUsuario(cursoUsuarioDto);
         return new ResponseEntity<>(savedCursoUsuario, HttpStatus.CREATED);
     }
 
@@ -34,6 +36,24 @@ public class CursoUsuarioController {
         CursoUsuarioDto updatedCursUsuario = cursoUsuarioService.updateCursoUsuario(
                 idCursoUsuario, cursoUsuarioDto.getAvanceCurso(), cursoUsuarioDto.getEstadoCurso());
         return ResponseEntity.ok(updatedCursUsuario);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CursoUsuarioDto>> getAllCursos() {
+        List<CursoUsuarioDto> cursos = cursoUsuarioService.getAllCursos();
+        return ResponseEntity.ok(cursos);
+    }
+
+    @GetMapping("/simple")
+    public ResponseEntity<List<CursoUsuarioSimpleDto>> getAllCursosSimple() {
+        List<CursoUsuarioSimpleDto> cursos = cursoUsuarioService.getAllCursosSimple();
+        return ResponseEntity.ok(cursos);
+    }
+
+    @GetMapping("/usuarios/{idCursoUsuario}")
+    public ResponseEntity<CursoConUsuariosDto> getUsuariosByCursoId(@PathVariable Integer idCursoUsuario) {
+        CursoConUsuariosDto cursoConUsuarios = cursoUsuarioService.getUsuariosByCursoId(idCursoUsuario);
+        return ResponseEntity.ok(cursoConUsuarios);
     }
 
 }
