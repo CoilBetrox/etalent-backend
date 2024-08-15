@@ -13,6 +13,7 @@ public class SecurityConstants {
     public static final String USERS_GET = "/api/usuarios";
     public static final String CURSOS_BY_ADMINID = "/api/cursosUsuario";
     public static final String USERS_BY_CURSO = "/api/cursosUsuario/usuarios";
+    public static final String ASSIGN_USERS_TO_CURSO = "/api/cursosUsuario/assign";
 
     public static final String CHANGE_ADMINS_BY_ID = "/api/admins";
 

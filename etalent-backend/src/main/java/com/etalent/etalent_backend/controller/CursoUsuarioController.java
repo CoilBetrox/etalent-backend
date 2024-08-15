@@ -2,6 +2,7 @@ package com.etalent.etalent_backend.controller;
 
 import com.etalent.etalent_backend.dto.CursoConUsuariosDto;
 import com.etalent.etalent_backend.dto.CursoUsuarioDto;
+import com.etalent.etalent_backend.dto.CursoUsuarioRelacionDto;
 import com.etalent.etalent_backend.dto.CursoUsuarioSimpleDto;
 import com.etalent.etalent_backend.service.CursoUsuarioService;
 import lombok.AllArgsConstructor;
@@ -55,5 +56,14 @@ public class CursoUsuarioController {
         CursoConUsuariosDto cursoConUsuarios = cursoUsuarioService.getUsuariosByCursoId(idCursoUsuario);
         return ResponseEntity.ok(cursoConUsuarios);
     }
+
+    @PostMapping("/assign/{idCursoUsuario}/{idUsuario}")
+    public ResponseEntity<CursoUsuarioRelacionDto> assignUserToCurso(
+            @PathVariable Integer idCursoUsuario,
+            @PathVariable Integer idUsuario) {
+        CursoUsuarioRelacionDto assignedCursoUsuario = cursoUsuarioService.assignUserToCurso(idCursoUsuario, idUsuario);
+        return new ResponseEntity<>(assignedCursoUsuario, HttpStatus.OK);
+    }
+
 
 }

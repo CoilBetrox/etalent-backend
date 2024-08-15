@@ -64,4 +64,12 @@ public class ComentarioFeedbackServiceImpl implements ComentarioFeedbackService 
                 .map(ComentarioFeedbackMapperM.INSTANCE::toComentarioFeedbackDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ComentarioFeedbackDto> getComentariosByFeedbackId(Integer feedbackId) {
+        return comentarioFeedbackRepository.findByFeedbackId(feedbackId).stream()
+                .map(ComentarioFeedbackMapperM.INSTANCE::toComentarioFeedbackDto)
+                .collect(Collectors.toList());
+    }
 }

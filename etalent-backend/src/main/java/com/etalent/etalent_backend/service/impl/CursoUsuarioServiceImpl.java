@@ -2,6 +2,7 @@ package com.etalent.etalent_backend.service.impl;
 
 import com.etalent.etalent_backend.dto.CursoConUsuariosDto;
 import com.etalent.etalent_backend.dto.CursoUsuarioDto;
+import com.etalent.etalent_backend.dto.CursoUsuarioRelacionDto;
 import com.etalent.etalent_backend.dto.CursoUsuarioSimpleDto;
 import com.etalent.etalent_backend.entity.Admin;
 import com.etalent.etalent_backend.entity.CursoUsuario;
@@ -41,8 +42,24 @@ public class CursoUsuarioServiceImpl implements CursoUsuarioService {
 
     @Override
     @Transactional
-    public CursoUsuarioDto assignUserToCurso(Integer idCursoUsuario, Integer idUsuario) {
-        return null;
+    public CursoUsuarioRelacionDto assignUserToCurso(Integer idCursoUsuario, Integer idUsuario) {
+        CursoUsuario cursoUsuario = cursoUsuarioRepository.findById(idCursoUsuario)
+                .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (cursoUsuario.getUsuarios().contains(usuario)) {
+            throw new RuntimeException("El usuario ya está asignado a este curso");
+        }
+
+        cursoUsuario.getUsuarios().add(usuario);
+        usuario.getCursosUsuario().add(cursoUsuario);
+
+        cursoUsuarioRepository.save(cursoUsuario);
+        usuarioRepository.save(usuario);
+
+        return CursoUsuarioMapperM.INSTANCE.toCursoUsuarioRelacionDto(cursoUsuario);
     }
 
     @Override

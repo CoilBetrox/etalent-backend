@@ -29,4 +29,10 @@ public class ComentarioFeedbackController {
         List<ComentarioFeedbackDto> comentariosFeedback = comentarioFeedbackService.getAllComentarioFeedback();
         return ResponseEntity.ok(comentariosFeedback);
     }
+
+    @GetMapping("/comentarios/{idFeedback}")
+    public ResponseEntity<List<ComentarioFeedbackDto>> getComentariosByFeedbackId(@PathVariable Integer idFeedback) {
+        List<ComentarioFeedbackDto> comentariosFeedback = comentarioFeedbackService.getComentariosByFeedbackId(idFeedback);
+        return ResponseEntity.ok(comentariosFeedback);
+    }
 }

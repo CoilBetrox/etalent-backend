@@ -7,4 +7,5 @@ import java.util.List;
 public interface ComentarioFeedbackService {
     ComentarioFeedbackDto createComentarioFeedback(ComentarioFeedbackDto comentarioFeedbackDto, Integer IdFeedback);
     List<ComentarioFeedbackDto> getAllComentarioFeedback();
+    List<ComentarioFeedbackDto> getComentariosByFeedbackId(Integer feedbackId);
 }
