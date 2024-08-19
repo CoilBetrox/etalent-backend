@@ -16,4 +16,6 @@ public interface AdminRegisterRepository extends JpaRepository<Admin, Integer> {
     @Query("SELECT a FROM Admin a WHERE a.verificationToken = :token")
     Optional<Admin> findByVerificationToken(@Param("token") String token);
     Optional<Admin> findByPasswordResetToken(String token);
+
+    Optional<Admin> findBySapAdmin(String sapAdmin);
 }

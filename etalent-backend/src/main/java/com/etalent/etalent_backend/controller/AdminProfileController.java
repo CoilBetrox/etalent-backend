@@ -74,4 +74,9 @@ public class AdminProfileController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/bySap/{sapAdmin}")
+    public ResponseEntity<AdminPerfilDto> getAdminBySap(@PathVariable String sapAdmin){
+        return null;
+    }
 }

@@ -88,4 +88,13 @@ public class AdminProfileServiceImpl implements AdminProfileService {
         }
         usuarioRepository.saveAll(usuarios);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public AdminPerfilDto getAdminBySap(String sap) {
+        Admin admin = adminRegisterRepository.findBySapAdmin(sap)
+                .orElseThrow(() -> new RuntimeException("Admin no encontrado"));
+
+        return AdminPerfilMapperM.INSTANCE.toAdminPerfilDto(admin);
+    }
 }

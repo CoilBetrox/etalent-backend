@@ -11,4 +11,7 @@ public interface UsuarioService {
     List<UsuarioDirectorioDto> getAllUsuarios();
     UsuarioDto updateUsuario(Integer usuarioId, UsuarioDto updatedUsuario);
     void deleteUsuario(Integer usuarioId);
+
+    List<UsuarioDirectorioDto> getUsuarioBySap(String sapUsuario);
+    List<UsuarioDto> createUsuariosBulk(List<UsuarioDto> usuariosDto);
 }

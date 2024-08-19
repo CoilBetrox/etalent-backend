@@ -107,4 +107,40 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         usuarioRepository.deleteUsuarioById(usuarioId);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UsuarioDirectorioDto> getUsuarioBySap(String sapUsuario) {
+        List<Usuario> usuarios = usuarioRepository.findBySapUsuario(sapUsuario);
+        if (usuarios.isEmpty()) {
+            throw new RuntimeException("No se encontraron usuarios con los SAPs proporcionados.");
+        }
+        return usuarios.stream()
+                .map(UsuarioDirectorioMapperM.INSTANCE::toUsuarioDirectorioDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<UsuarioDto> createUsuariosBulk(List<UsuarioDto> usuariosDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String correoAdmin = authentication.getName();
+        Admin admin = adminRegisterRepository.findByCorreoAdmin(correoAdmin)
+                .orElseThrow(() -> new RuntimeException("Admin no encontrado"));
+
+        Integer idRol = 5;
+        RolUsuario rolUsuario = rolUsuarioRepository.findById(idRol)
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
+
+        List<UsuarioDto> savedUsuarios = usuariosDto.stream().map(usuarioDto -> {
+            Usuario usuario = UsuarioMapperM.INSTANCE.toUsuario(usuarioDto);
+            usuario.setRolUsuario(rolUsuario);
+            usuario.setAdmin(admin);
+            Usuario saveUsuario = usuarioRepository.save(usuario);
+            return UsuarioMapperM.INSTANCE.toUsuarioDto(saveUsuario);
+        }).collect(Collectors.toList());
+
+        return savedUsuarios;
+    }
+
 }

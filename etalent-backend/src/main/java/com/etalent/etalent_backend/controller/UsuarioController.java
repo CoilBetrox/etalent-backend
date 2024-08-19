@@ -33,6 +33,12 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioDto);
     }
 
+    @GetMapping("/buscarPorSap/{sapUsuario}")
+    public ResponseEntity<List<UsuarioDirectorioDto>> getUsuarioBySap(@PathVariable("sapUsuario") String sapUsuario){
+        List<UsuarioDirectorioDto> usuarioDirectorioDto = usuarioService.getUsuarioBySap(sapUsuario);
+        return ResponseEntity.ok(usuarioDirectorioDto);
+    }
+
     //Build Get All Usuarios REST API
     @GetMapping
     public ResponseEntity<List<UsuarioDirectorioDto>> getAllUsuarios() {
@@ -53,5 +59,11 @@ public class UsuarioController {
     public ResponseEntity<String> deleteUsuario(@PathVariable("id") Integer usuarioId) {
         usuarioService.deleteUsuario(usuarioId);
         return ResponseEntity.ok("Usuario deleted successfully");
+    }
+
+    @PostMapping("/bulk")
+    public ResponseEntity<List<UsuarioDto>> createUsuariosBulk(@RequestBody List<UsuarioDto> usuariosDtos){
+        List<UsuarioDto> savedUsuarios = usuarioService.createUsuariosBulk(usuariosDtos);
+        return new ResponseEntity<>(savedUsuarios, HttpStatus.CREATED);
     }
 }
