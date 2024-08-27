@@ -31,5 +31,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     void deleteUsuarioById(@Param("usuarioId") Integer usuarioId);
 
     List<Usuario> findByAdmin(Admin admin);
+
+
     List<Usuario> findBySapUsuario(String sapUsuario);
 }

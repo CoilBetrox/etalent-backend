@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/etalent-backend.iml" filepath="$PROJECT_DIR$/.idea/etalent-backend.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/etalent-backend.etalent-backend.main~1.iml" filepath="$PROJECT_DIR$/.idea/modules/etalent-backend.etalent-backend.main~1.iml" />
     </modules>
   </component>
 </project>
