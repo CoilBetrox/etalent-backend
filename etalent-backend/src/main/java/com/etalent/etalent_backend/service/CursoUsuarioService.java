@@ -15,4 +15,5 @@ public interface CursoUsuarioService {
     List<CursoUsuarioDto> getAllCursos();
     List<CursoUsuarioSimpleDto> getAllCursosSimple();
     CursoConUsuariosDto getUsuariosByCursoId(Integer idCursoUsuario);
+    void quitarUsuarioDeCurso(Integer idCursoUsuario, Integer idUsuario);
 }

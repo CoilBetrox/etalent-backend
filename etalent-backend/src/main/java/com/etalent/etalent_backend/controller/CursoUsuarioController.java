@@ -65,5 +65,17 @@ public class CursoUsuarioController {
         return new ResponseEntity<>(assignedCursoUsuario, HttpStatus.OK);
     }
 
+    @DeleteMapping("/del/{idCursoUsuario}/{idUsuario}")
+    public ResponseEntity<?> quitarUsuarioDeCurso(
+            @PathVariable Integer idCursoUsuario,
+            @PathVariable Integer idUsuario) {
+        try {
+            cursoUsuarioService.quitarUsuarioDeCurso(idCursoUsuario, idUsuario);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
 
 }

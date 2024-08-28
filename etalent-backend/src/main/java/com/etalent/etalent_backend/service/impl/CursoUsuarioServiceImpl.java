@@ -63,6 +63,22 @@ public class CursoUsuarioServiceImpl implements CursoUsuarioService {
     }
 
     @Override
+    @Transactional
+    public void quitarUsuarioDeCurso(Integer idCursoUsuario, Integer idUsuario) {
+        CursoUsuario cursoUsuario = cursoUsuarioRepository.findById(idCursoUsuario)
+                .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        cursoUsuario.getUsuarios().remove(usuario);
+        usuario.getCursosUsuario().remove(cursoUsuario);
+
+        cursoUsuarioRepository.save(cursoUsuario);
+        usuarioRepository.save(usuario);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<CursoUsuarioDto> getCursosByIdUsuario(Integer idUsuario) {
 

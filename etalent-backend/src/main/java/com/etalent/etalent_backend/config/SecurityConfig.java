@@ -43,6 +43,8 @@ public class SecurityConfig {
                             .requestMatchers(SecurityConstants.CURSOS_BY_ADMINID).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_TIENDA, SecurityConstants.ROLE_ADMIN_DO)
                             .requestMatchers(SecurityConstants.USERS_BY_CURSO).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_TIENDA, SecurityConstants.ROLE_ADMIN_DO)
                             .requestMatchers(SecurityConstants.ASSIGN_USERS_TO_CURSO).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_TIENDA, SecurityConstants.ROLE_ADMIN_DO)
+                            .requestMatchers(SecurityConstants.DEL_USERS_TO_CURSO).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_TIENDA, SecurityConstants.ROLE_ADMIN_DO)
+
                             .requestMatchers(SecurityConstants.FIND_USERS_BY_SAP).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_TIENDA, SecurityConstants.ROLE_ADMIN_DO)
                             .requestMatchers(SecurityConstants.CHANGE_ADMINS_BY_ID).hasAnyAuthority(SecurityConstants.ROLE_ADMIN_DO)
 
