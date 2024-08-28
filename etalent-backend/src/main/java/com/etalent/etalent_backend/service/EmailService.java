@@ -12,6 +12,9 @@ public class EmailService {
 
     private String fromEmail;
 
+    @Value("${app.frontend.url}")
+    private String frontendUrl;
+
     public EmailService(JavaMailSender mailSender, @Value("${spring.mail.username}") String fromEmail) {
         this.mailSender = mailSender;
         this.fromEmail = fromEmail;
@@ -23,7 +26,7 @@ public class EmailService {
         message.setTo(to);
         message.setSubject("Verifica tu cuenta de eTalent");
         message.setText("Por favor, haz clic en el siguiente enlace para verificar tu cuenta: "
-                + "http://localhost:8080/verify-email?token=" + token);
+                + frontendUrl+"/verify-email?token=" + token);
         mailSender.send(message);
     }
 
@@ -33,7 +36,7 @@ public class EmailService {
         message.setTo(to);
         message.setSubject("Restablece tu contraseña de eTalent");
         message.setText("Para restablecer tu contraseña, haz clic en el siguiente enlace: "
-                + "http://localhost:8080/reset-password?token=" + token);
+                + frontendUrl+"/reset-password?token=" + token);
         mailSender.send(message);
     }
 }
