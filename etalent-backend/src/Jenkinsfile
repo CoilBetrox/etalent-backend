@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+    tools {
+        jdk 'Java 17'
+        gradle 'Gradle 8.7'
+    }
+    environment {
+        REPO_DIR = "${env.WORKSPACE}"
+        JAR_FILE = "etalent-backend-0.0.1-SANPSHOT.jar"
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Build') {
+            steps {
+                dir(REPO_DIR) {
+                    sh 'gradle clean build -x test'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                    // Crear directorio de destino si no existe
+                    sh "sudo cp ${REPO_DIR}/build/libs/${JAR_FILE} /opt/proyectos/etalent-backend.jar"
+
+                    // Reiniciar la aplicación usando Systemd o ejecutar el JAR en segundo plano
+                    sh 'sudo systemctl restart etalent-backend.service'
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Despliegue exitoso'
+        }
+        failure {
+            echo 'Hubo un error en el despliegue'
+        }
+    }
+}
