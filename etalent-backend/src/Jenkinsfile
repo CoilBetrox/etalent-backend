@@ -4,12 +4,6 @@ pipeline {
         jdk 'Java 17'
         gradle 'Gradle 8.7'
     }
-    environment {
-        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-arm64'
-        PATH = "${JAVA_HOME}/bin:${env.PATH}"
-        REPO_DIR = "${env.WORKSPACE}"
-        JAR_FILE = "etalent-backend-0.0.1-SANPSHOT.jar"
-    }
     stages {
         stage('Checkout') {
             steps {
@@ -18,18 +12,22 @@ pipeline {
         }
         stage('Build') {
             steps {
-                dir(REPO_DIR) {
-                    sh 'gradle clean build -x test'
+                script {
+                    // Imprimir información de diagnóstico
+                    sh 'echo $JAVA_HOME'
+                    sh 'java -version'
+                    sh 'gradle --version'
+                }
+                dir("${env.WORKSPACE}") {
+                    sh 'chmod +x gradlew'
+                    sh './gradlew clean build -x test'
                 }
             }
         }
         stage('Deploy') {
             steps {
                 script {
-                    // Crear directorio de destino si no existe
-                    sh "sudo cp ${REPO_DIR}/build/libs/${JAR_FILE} /opt/proyectos/etalent-backend.jar"
-
-                    // Reiniciar la aplicación usando Systemd o ejecutar el JAR en segundo plano
+                    sh "sudo cp ${env.WORKSPACE}/build/libs/etalent-backend-0.0.1-SANPSHOT.jar /opt/proyectos/etalent-backend.jar"
                     sh 'sudo systemctl restart etalent-backend.service'
                 }
             }
