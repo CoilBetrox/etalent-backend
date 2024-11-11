@@ -76,7 +76,7 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        //.allowedOrigins("http://localhost:8082") // Especifique el origen exacto
+                        //.allowedOrigins("http://localhost:8080") // Especifique el origen exacto
                         .allowedOrigins("https://etalent.rdtroyaram.site") // Especifique el origen exacto
                         .allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")

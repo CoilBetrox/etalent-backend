@@ -82,11 +82,19 @@ public class AdminProfileServiceImpl implements AdminProfileService {
         Admin newAdmin = adminRepository.findById(newAdminId)
                 .orElseThrow(() -> new RuntimeException("Admin no encontrado"));
 
-        List<Usuario> usuarios = usuarioRepository.findByAdmin(oldAdmin);
-        for (Usuario usuario : usuarios) {
+        List<Usuario> usuariosOldAdmin = usuarioRepository.findByAdmin(oldAdmin);
+        List<Usuario> usuariosNewAdmin = usuarioRepository.findByAdmin(newAdmin);
+
+        for (Usuario usuario : usuariosOldAdmin) {
             usuario.setAdmin(newAdmin);
         }
-        usuarioRepository.saveAll(usuarios);
+
+        for (Usuario usuario : usuariosNewAdmin) {
+            usuario.setAdmin(oldAdmin);
+        }
+        usuarioRepository.saveAll(usuariosOldAdmin);
+        usuarioRepository.saveAll(usuariosNewAdmin);
+
     }
 
     @Override
