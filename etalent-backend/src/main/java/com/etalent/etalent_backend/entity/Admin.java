@@ -55,7 +55,7 @@ public class Admin implements UserDetails{
 
     //Zona-seccion (Jefaturas-Belleza-calzado-tecnología)
     @Column(name = "zona_admin")
-    private String zonaAdmin = "Jefaturas";
+    private String zonaAdmin = "JEFATURAS";
 
     //Ubicacion tienda (Pana Norte)
     @Column(name = "tienda_admin")

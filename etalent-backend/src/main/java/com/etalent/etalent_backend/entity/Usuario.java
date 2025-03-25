@@ -85,7 +85,8 @@ public class Usuario {
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @ManyToMany(mappedBy = "usuarios")
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CursoUsuario> cursosUsuario = new HashSet<>();
+
 
 }

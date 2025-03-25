@@ -41,12 +41,12 @@ public class CursoUsuario {
     private String estadoCurso;
 
     @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "usuario_curso_usuario",
-            joinColumns = @JoinColumn(name = "curso_usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "usuario_id")
-    )
-    private Set<Usuario> usuarios = new HashSet<>();
+    @ToString.Include
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "id_curso", referencedColumnName = "id_curso", nullable = false)
+    private Curso curso;
 }

@@ -1,24 +1,26 @@
 package com.etalent.etalent_backend.service.impl;
 
-import com.etalent.etalent_backend.dto.AdminDto;
-import com.etalent.etalent_backend.dto.AdminPerfilDto;
-import com.etalent.etalent_backend.dto.AdminUpdateDto;
-import com.etalent.etalent_backend.dto.UsuarioDto;
+import com.etalent.etalent_backend.dto.*;
 import com.etalent.etalent_backend.entity.Admin;
+import com.etalent.etalent_backend.entity.RolAdmin;
 import com.etalent.etalent_backend.entity.Usuario;
+import com.etalent.etalent_backend.exceptions.ResourceNotFoundException;
 import com.etalent.etalent_backend.mapper.AdminMapperM;
 import com.etalent.etalent_backend.mapper.AdminPerfilMapperM;
+import com.etalent.etalent_backend.mapper.AdminRegisterMapperM;
 import com.etalent.etalent_backend.mapper.UsuarioMapperM;
 import com.etalent.etalent_backend.repository.AdminRegisterRepository;
 import com.etalent.etalent_backend.repository.AdminRepository;
+import com.etalent.etalent_backend.repository.RolAdminRepository;
 import com.etalent.etalent_backend.repository.UsuarioRepository;
 import com.etalent.etalent_backend.service.AdminProfileService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -28,6 +30,7 @@ public class AdminProfileServiceImpl implements AdminProfileService {
     private final UsuarioRepository usuarioRepository;
     private AdminRegisterRepository adminRegisterRepository;
     private AdminRepository adminRepository;
+    private RolAdminRepository rolAdminRepository;
 
     @Override
     @Transactional
@@ -44,6 +47,14 @@ public class AdminProfileServiceImpl implements AdminProfileService {
         if (adminUpdateDto.getCorreoAdmin() != null) {
             admin.setCorreoAdmin(adminUpdateDto.getCorreoAdmin());
         }
+        if (adminUpdateDto.getEmpresaAdmin() != null) {
+            admin.setEmpresaAdmin(adminUpdateDto.getEmpresaAdmin());
+        }
+        if (adminUpdateDto.getProvinciaAdmin() != null) {
+            admin.setProvinciaAdmin(adminUpdateDto.getProvinciaAdmin());
+        }
+
+
         adminRegisterRepository.save(admin);
     }
 
@@ -105,4 +116,62 @@ public class AdminProfileServiceImpl implements AdminProfileService {
 
         return AdminPerfilMapperM.INSTANCE.toAdminPerfilDto(admin);
     }
+
+    @Override
+    public AdminPerfilDto updateAdminEstado(Integer adminId, AdminPerfilDto adminUpdatedto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String correoAdmin = authentication.getName();
+        Admin admin = adminRegisterRepository.findByCorreoAdmin(correoAdmin)
+                .orElseThrow(()-> new RuntimeException("Admin no encontrado"));
+        Admin adminExistente = adminRepository.findById(adminId)
+                .orElseThrow(() -> new ResourceNotFoundException("Admin is not exist with given id: "+adminId));
+
+        adminExistente.setEstadoAdmin(adminUpdatedto.getEstadoAdmin());
+
+        Admin updatedAdminObj = adminRepository.save(adminExistente);
+
+
+        return AdminPerfilMapperM.INSTANCE.toAdminPerfilDto(updatedAdminObj);
+    }
+
+    @Override
+    @Transactional
+    public List<AdminRegisterDto> createJefesBulk(List<AdminRegisterDto> adminsDtos) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String correoAdmin = authentication.getName();
+        Admin admin = adminRegisterRepository.findByCorreoAdmin(correoAdmin)
+                .orElseThrow(() -> new RuntimeException("Admin no encontrado"));
+
+        List<AdminRegisterDto> savedAdmins = new ArrayList<>();
+
+        RolAdmin rolAdminTienda = rolAdminRepository.findById(2)
+                .orElseThrow(() -> new RuntimeException("Rol AdminTienda no encontrado"));
+
+        for (AdminRegisterDto adminDto : adminsDtos) {
+            // Verificar si el correo ya existe
+            if (adminRegisterRepository.findByCorreoAdmin(adminDto.getCorreoAdmin()).isPresent()) {
+                throw new RuntimeException("El correo " + adminDto.getCorreoAdmin() + " ya está registrado");
+            }
+
+            // Convertir DTO a entidad
+            Admin nuevoAdmin = AdminRegisterMapperM.INSTANCE.toAdmin(adminDto);
+            nuevoAdmin.setVerified(true);
+
+            Set<RolAdmin> roles = new HashSet<>();
+            roles.add(rolAdminTienda);
+
+            nuevoAdmin.setRolAdmins((roles));
+
+
+            // Guardar admin
+            Admin savedAdmin = adminRegisterRepository.save(nuevoAdmin);
+
+            // Convertir a DTO de respuesta
+            AdminRegisterDto responseDto = AdminRegisterMapperM.INSTANCE.toAdminRegisterDto(savedAdmin);
+            savedAdmins.add(responseDto);
+        }
+
+        return savedAdmins;
+    }
+
 }

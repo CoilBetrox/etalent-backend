@@ -1,14 +1,14 @@
 package com.etalent.etalent_backend.service.impl;
 
-import com.etalent.etalent_backend.dto.CursoConUsuariosDto;
-import com.etalent.etalent_backend.dto.CursoUsuarioDto;
-import com.etalent.etalent_backend.dto.CursoUsuarioRelacionDto;
-import com.etalent.etalent_backend.dto.CursoUsuarioSimpleDto;
+import com.etalent.etalent_backend.dto.*;
 import com.etalent.etalent_backend.entity.Admin;
+import com.etalent.etalent_backend.entity.Curso;
 import com.etalent.etalent_backend.entity.CursoUsuario;
 import com.etalent.etalent_backend.entity.Usuario;
+import com.etalent.etalent_backend.mapper.CursoMapperM;
 import com.etalent.etalent_backend.mapper.CursoUsuarioMapperM;
 import com.etalent.etalent_backend.repository.AdminRegisterRepository;
+import com.etalent.etalent_backend.repository.CursoRepository;
 import com.etalent.etalent_backend.repository.CursoUsuarioRepository;
 import com.etalent.etalent_backend.repository.UsuarioRepository;
 import com.etalent.etalent_backend.service.CursoUsuarioService;
@@ -28,38 +28,44 @@ public class CursoUsuarioServiceImpl implements CursoUsuarioService {
     private CursoUsuarioRepository cursoUsuarioRepository;
     private AdminRegisterRepository adminRegisterRepository;
     private UsuarioRepository usuarioRepository;
+    private CursoRepository cursoRepository;
 
     @Override
     @Transactional
-    public CursoUsuarioDto createCursoUsuario(CursoUsuarioDto cursoUsuarioDto) {
+    public CursoDto createCursoUsuario(CursoDto cursoDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String correoAdmin = authentication.getName();
         Admin admin =  adminRegisterRepository.findByCorreoAdmin(correoAdmin)
                 .orElseThrow(() -> new RuntimeException("Admin no encontrado"));
-        CursoUsuario cursoUsuario = CursoUsuarioMapperM.INSTANCE.toCursoUsuario(cursoUsuarioDto);
-        return CursoUsuarioMapperM.INSTANCE.toCursoUsuarioDto(cursoUsuarioRepository.save(cursoUsuario));
+
+        Curso curso = CursoMapperM.INSTANCE.toCurso(cursoDto);
+        Curso savedCurso = cursoRepository.save(curso);
+        return CursoMapperM.INSTANCE.toCursoDto(savedCurso);
     }
 
     @Override
     @Transactional
-    public CursoUsuarioRelacionDto assignUserToCurso(Integer idCursoUsuario, Integer idUsuario) {
-        CursoUsuario cursoUsuario = cursoUsuarioRepository.findById(idCursoUsuario)
+    public CursoUsuarioRelacionDto assignUserToCurso(Integer idCurso, Integer idUsuario) {
+
+        Curso curso = cursoRepository.findById(idCurso)
                 .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
 
         Usuario usuario = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        if (cursoUsuario.getUsuarios().contains(usuario)) {
-            throw new RuntimeException("El usuario ya está asignado a este curso");
-        }
+        CursoUsuario nuevoCursoUsuario = new CursoUsuario();
+        nuevoCursoUsuario.setCurso(curso);
+        nuevoCursoUsuario.setUsuario(usuario);
+        nuevoCursoUsuario.setNombreCursoUsuario(curso.getNombreCurso());
+        nuevoCursoUsuario.setDescripcionCurso(curso.getDescripcion());
+        nuevoCursoUsuario.setEstadoCurso("Activo");
+        nuevoCursoUsuario.setAvanceCurso(0);
+        nuevoCursoUsuario.setFechaInicio(curso.getFechaInicio());
+        nuevoCursoUsuario.setFechaFin(curso.getFechaFin());
 
-        cursoUsuario.getUsuarios().add(usuario);
-        usuario.getCursosUsuario().add(cursoUsuario);
+        CursoUsuario savedCursoUsuario = cursoUsuarioRepository.save(nuevoCursoUsuario);
 
-        cursoUsuarioRepository.save(cursoUsuario);
-        usuarioRepository.save(usuario);
-
-        return CursoUsuarioMapperM.INSTANCE.toCursoUsuarioRelacionDto(cursoUsuario);
+        return CursoUsuarioMapperM.INSTANCE.toCursoUsuarioRelacionDto(savedCursoUsuario);
     }
 
     @Override
@@ -68,14 +74,9 @@ public class CursoUsuarioServiceImpl implements CursoUsuarioService {
         CursoUsuario cursoUsuario = cursoUsuarioRepository.findById(idCursoUsuario)
                 .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
 
-        Usuario usuario = usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        cursoUsuario.getUsuarios().remove(usuario);
-        usuario.getCursosUsuario().remove(cursoUsuario);
-
+        // Simply set usuarios to null or remove the specific curso usuario
+        cursoUsuario.setUsuario(null);
         cursoUsuarioRepository.save(cursoUsuario);
-        usuarioRepository.save(usuario);
     }
 
     @Override
@@ -105,24 +106,28 @@ public class CursoUsuarioServiceImpl implements CursoUsuarioService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<CursoUsuarioDto> getAllCursos() {
-        List<CursoUsuario> cursos = cursoUsuarioRepository.findAll();
-        return CursoUsuarioMapperM.INSTANCE.toCursoUsuarioDtoList(cursos);
+    public List<CursoDto> getAllCursos() {
+        List<Curso> cursos = cursoRepository.findAll();
+        return CursoMapperM.INSTANCE.toCursoDtoList(cursos);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<CursoUsuarioSimpleDto> getAllCursosSimple() {
-        List<CursoUsuario> cursos = cursoUsuarioRepository.findAll();
-        return CursoUsuarioMapperM.INSTANCE.toCursoUsuarioSimpleDtoList(cursos);
+    public List<CursoDto> getAllCursosSimple() {
+        List<Curso> cursos = cursoRepository.findAll();
+        return CursoMapperM.INSTANCE.toCursoDtoList(cursos);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public CursoConUsuariosDto getUsuariosByCursoId(Integer idCursoUsuario) {
-        CursoUsuario cursoUsuario = cursoUsuarioRepository.findById(idCursoUsuario)
+    public CursoConUsuariosDto getUsuarioByCursoId(Integer idCurso) {
+        Curso curso = cursoRepository.findById(idCurso)
                 .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
 
-        return CursoUsuarioMapperM.INSTANCE.toCursoConUsuariosDto(cursoUsuario);
+        List<UsuarioSimpleDto> usuarios = curso.getCursosUsuario().stream()
+                .map(usuario -> new UsuarioSimpleDto(usuario.getUsuario().getIdUsuario(), usuario.getUsuario().getNombreUsuario(), usuario.getUsuario().getSapUsuario()))
+                .collect(Collectors.toList());
+
+        return new CursoConUsuariosDto(curso.getIdCurso(), curso.getNombreCurso(), usuarios);
     }
 }

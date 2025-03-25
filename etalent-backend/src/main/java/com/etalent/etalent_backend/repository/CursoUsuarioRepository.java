@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface CursoUsuarioRepository extends JpaRepository<CursoUsuario, Integer> {
 
-    @Query("SELECT c FROM CursoUsuario c JOIN c.usuarios u WHERE u.idUsuario = :usuarioId")
+    @Query("SELECT c FROM CursoUsuario c JOIN c.usuario u WHERE u.idUsuario = :usuarioId")
     List<CursoUsuario> findCursosByUsuarioId(@Param("usuarioId") Integer usuarioId);
 }

@@ -12,4 +12,7 @@ public class AdminUpdateDto {
     private String nombreAdmin;
     private String sapAdmin;
     private String correoAdmin;
+    private String empresaAdmin;
+    private String provinciaAdmin;
+    private String estadoAdmin;
 }

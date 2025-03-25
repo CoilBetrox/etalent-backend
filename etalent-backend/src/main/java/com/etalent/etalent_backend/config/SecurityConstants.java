@@ -7,9 +7,11 @@ public class SecurityConstants {
     public static final String AUTH_FORGOT_PASSWORD = "/api/admins/auth/forgot-password";
     public static final String AUTH_RESET_PASSWORD = "/api/admins/auth/reset-password";
     public static final String ADMIN_PROFILE_UPDATE_URL = "/api/admins/profile-update";
+    public static final String ADMIN_PROFILE_UPDATE_STATUS_URL = "/api/admins/profile-update-status";
     public static final String ADMIN_PROFILE_URL = "/api/admins/profile";
     public static final String ADMIN_BY_ROLE_URL = "/api/admins/byRole";
     public static final String USERS_BY_ADMIN_URL = "/api/admins/usersAdmin";
+    public static final String ADMINS_BULK_JEFES = "/api/admins/bulk-jefes";
     public static final String USERS_GET = "/api/usuarios";
     public static final String CURSOS_BY_ADMINID = "/api/cursosUsuario";
     public static final String USERS_BY_CURSO = "/api/cursosUsuario/usuarios";

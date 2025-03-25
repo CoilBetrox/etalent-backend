@@ -1,10 +1,8 @@
 package com.etalent.etalent_backend.controller;
 
-import com.etalent.etalent_backend.dto.AdminDto;
-import com.etalent.etalent_backend.dto.AdminPerfilDto;
-import com.etalent.etalent_backend.dto.AdminUpdateDto;
-import com.etalent.etalent_backend.dto.UsuarioDto;
+import com.etalent.etalent_backend.dto.*;
 import com.etalent.etalent_backend.entity.Admin;
+import com.etalent.etalent_backend.mapper.AdminMapperM;
 import com.etalent.etalent_backend.service.AdminProfileService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -45,6 +43,13 @@ public class AdminProfileController {
         }
     }
 
+    @PutMapping("/profile-update-status/{idAdmin}")
+    public ResponseEntity<AdminPerfilDto> updateEstadoAdmin(@PathVariable("idAdmin") Integer adminId,
+                                                            @RequestBody AdminPerfilDto adminUpdateDto){
+        AdminPerfilDto adminDto = adminProfileService.updateAdminEstado(adminId, adminUpdateDto);
+        return ResponseEntity.ok(adminDto);
+    }
+
     @GetMapping("/byRole")
     public ResponseEntity<List<AdminDto>> getAdminsByRole(Authentication authentication){
 
@@ -78,5 +83,12 @@ public class AdminProfileController {
     @GetMapping("/bySap/{sapAdmin}")
     public ResponseEntity<AdminPerfilDto> getAdminBySap(@PathVariable String sapAdmin){
         return null;
+    }
+
+    @PostMapping("/bulk-jefes")
+    public ResponseEntity<List<AdminRegisterDto>>createJefesBulk(@RequestBody List<AdminRegisterDto> adminsDtos){
+        List<AdminRegisterDto> savedAdmins = adminProfileService.createJefesBulk(adminsDtos);
+        return new ResponseEntity<>(savedAdmins, HttpStatus.CREATED);
+
     }
 }

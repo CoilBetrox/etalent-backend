@@ -17,6 +17,7 @@ public class AdminDto {
     private String cargoAdmin;
     private String zonaAdmin;
     private String empresaAdmin;
+    private String provinciaAdmin;
     private String tiendaAdmin;
-
+    private String estadoAdmin;
 }

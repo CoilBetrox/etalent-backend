@@ -14,5 +14,5 @@ public class CursoUsuarioRelacionDto {
     private String nombreCursoUsuario;
     private Integer avanceCurso;
     private String estadoCurso;
-    private List<UsuarioSimpleDto> usuarios;
+    private UsuarioSimpleDto usuario;
 }

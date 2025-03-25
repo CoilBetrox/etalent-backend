@@ -15,4 +15,5 @@ public class AdminPerfilDto {
     private String empresaAdmin;
     private String provinciaAdmin;
     private String zonaAdmin;
+    private String estadoAdmin;
 }

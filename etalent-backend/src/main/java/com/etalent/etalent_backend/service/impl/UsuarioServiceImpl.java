@@ -84,9 +84,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario is not exist with given id: "+usuarioId));
 
+        /*
         if (!usuario.getAdmin().getIdAdmin().equals(admin.getIdAdmin())) {
             throw new RuntimeException("Usuario no está asociado al admin autenticado");
         }
+         */
 
         if (updatedUsuario.getRolUsuario() != null && updatedUsuario.getRolUsuario().getIdRolUsuario() != null){
             usuario.setRolUsuario(rolUsuarioRepository.findById(updatedUsuario.getRolUsuario().getIdRolUsuario())

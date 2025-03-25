@@ -8,10 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Mapper
 public interface CursoUsuarioMapperM {
@@ -20,29 +17,24 @@ public interface CursoUsuarioMapperM {
     CursoUsuarioDto toCursoUsuarioDto(CursoUsuario cursoUsuario);
 
     @InheritInverseConfiguration
+    @Mapping(target = "usuario", ignore = true)
+    @Mapping(target = "curso", ignore = true)
     CursoUsuario toCursoUsuario(CursoUsuarioDto cursoUsuarioDto);
 
-    @Mapping(source = "cursoUsuario.usuarios", target = "usuarios")
+    @Mapping(target = "usuario", expression = "java(cursoUsuario.getUsuario() != null ? toUsuarioSimpleDto(cursoUsuario.getUsuario()) : null)")
     CursoUsuarioRelacionDto toCursoUsuarioRelacionDto(CursoUsuario cursoUsuario);
 
     @Mapping(target = "idUsuario", source = "idUsuario")
     @Mapping(target = "nombreUsuario", source = "nombreUsuario")
     UsuarioSimpleDto toUsuarioSimpleDto(Usuario usuario);
 
-    default List<UsuarioSimpleDto> mapUsuarios(Set<Usuario> usuarios) {
-        if (usuarios == null) {
-            return Collections.emptyList();
-        }
-        return usuarios.stream()
-                .map(this::toUsuarioSimpleDto)
-                .collect(Collectors.toList());
-    }
-
     CursoUsuarioSimpleDto toCursoUsuarioSimpleDto(CursoUsuario cursoUsuario);
 
     List<CursoUsuarioDto> toCursoUsuarioDtoList(List<CursoUsuario> cursoUsuarios);
     List<CursoUsuarioSimpleDto> toCursoUsuarioSimpleDtoList(List<CursoUsuario> cursoUsuarios);
 
-    @Mapping(target = "usuarios", source = "usuarios")
+    @Mapping(target = "idCurso", source = "curso.idCurso")
+    @Mapping(target = "nombreCurso", source = "curso.nombreCurso")
+    @Mapping(target = "usuarios", expression = "java(cursoUsuario.getUsuario() != null ? List.of(toUsuarioSimpleDto(cursoUsuario.getUsuario())) : new ArrayList<>())")
     CursoConUsuariosDto toCursoConUsuariosDto(CursoUsuario cursoUsuario);
 }
